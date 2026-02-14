@@ -1,4 +1,4 @@
-import { Box, Text, VStack, HStack } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Flex } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import type { Record } from '../types';
 
@@ -24,19 +24,25 @@ export function RecordImage({ record, unitName }: RecordImageProps) {
       bg="white"
       borderRadius="lg"
       boxShadow="xl"
-      maxW="500px"
+      maxW="800px"
+      minW="50vw"
+      width="100%"
       mx="auto"
       style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
     >
-      <VStack gap={4} align="stretch">
-        <Box textAlign="center" pb={2} borderBottom="2px" borderColor="gray.200" style={{ paddingBottom: '8px', borderBottom: '2px solid #e5e7eb' }}>
-          <Text fontSize="2xl" fontWeight="bold" color="gray.700" style={{ fontSize: '24px', fontWeight: 'bold', color: '#374151' }}>
-            {t('app.title')}
-          </Text>
-          <Text fontSize="lg" color="gray.600" style={{ fontSize: '18px', color: '#4b5563' }}>
-            {unitName}
-          </Text>
-        </Box>
+      <VStack gap={1} align="stretch">
+        <Flex pb={4}>
+          <Box flex="1" textAlign="left">
+            <Text fontSize="2xl" fontWeight="bold" style={{ fontSize: '24px', fontWeight: 'bold', color: '#374151' }}>
+              {t('app.title')}
+            </Text>
+          </Box>
+          <Box textAlign="right">
+            <Text fontSize="lg" fontWeight="bold" style={{ fontSize: '18px', color: '#4b5563' }}>
+              {unitName}
+            </Text>
+          </Box>          
+        </Flex>
 
         <HStack justify="space-between" py={2} borderBottom="1px" borderColor="gray.100" style={{ paddingTop: '8px', paddingBottom: '8px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between' }}>
           <Text fontWeight="medium" color="gray.600" style={{ fontWeight: '500', color: '#4b5563' }}>{t('recordTable.startDate')}:</Text>
