@@ -17,6 +17,9 @@ export function RecordTable({ records, unitName, onRecordsChange }: RecordTableP
 
     let startDate: Date;
     let endDate: Date;
+    let waterUnitPrice = 3.5;
+    let electricUnitPrice = 0.8;
+    let extraFee = 0;
 
     if (records.length > 0) {
       // Use the last record's end date and increment by 1 month
@@ -26,6 +29,11 @@ export function RecordTable({ records, unitName, onRecordsChange }: RecordTableP
       startDate = new Date(lastEndDate);
       endDate = new Date(lastEndDate);
       endDate.setMonth(endDate.getMonth() + 1);
+
+      // Carry forward unit prices and extra fee from previous record
+      waterUnitPrice = lastRecord.waterUnitPrice;
+      electricUnitPrice = lastRecord.electricUnitPrice;
+      extraFee = lastRecord.extraFee;
     } else {
       // Default to current month if no records exist
       const today = new Date();
@@ -39,11 +47,11 @@ export function RecordTable({ records, unitName, onRecordsChange }: RecordTableP
       endDate: formatDate(endDate),
       waterMeterStart: 0,
       waterMeterEnd: 0,
-      waterUnitPrice: 3.5,
+      waterUnitPrice,
       electricMeterStart: 0,
       electricMeterEnd: 0,
-      electricUnitPrice: 0.8,
-      extraFee: 0,
+      electricUnitPrice,
+      extraFee,
     };
 
     onRecordsChange([...records, newRecord]);
