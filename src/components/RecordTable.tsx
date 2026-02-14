@@ -13,16 +13,30 @@ interface RecordTableProps {
 export function RecordTable({ records, unitName, onRecordsChange }: RecordTableProps) {
   const { t } = useTranslation();
   const handleAddRecord = () => {
-    const today = new Date();
-    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
     const formatDate = (date: Date) => date.toISOString().split('T')[0];
+
+    let startDate: Date;
+    let endDate: Date;
+
+    if (records.length > 0) {
+      // Use the last record's end date and increment by 1 month
+      const lastRecord = records[records.length - 1];
+      const lastEndDate = new Date(lastRecord.endDate);
+
+      startDate = new Date(lastEndDate);
+      endDate = new Date(lastEndDate);
+      endDate.setMonth(endDate.getMonth() + 1);
+    } else {
+      // Default to current month if no records exist
+      const today = new Date();
+      startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    }
 
     const newRecord: Record = {
       id: uuidv4(),
-      startDate: formatDate(startOfMonth),
-      endDate: formatDate(endOfMonth),
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate),
       waterMeterStart: 0,
       waterMeterEnd: 0,
       waterUnitPrice: 3.5,
