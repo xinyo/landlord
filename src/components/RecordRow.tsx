@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import {
   HStack,
   Input,
@@ -23,6 +23,7 @@ interface RecordRowProps {
 export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowProps) {
   const { t } = useTranslation();
   const [showImage, setShowImage] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const computed = useMemo((): ComputedValues => {
     const waterUsage = Math.max(0, record.waterMeterEnd - record.waterMeterStart);
@@ -48,10 +49,11 @@ export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowPro
   const handleDownloadImage = async () => {
     setShowImage(true);
     // Wait for dialog to render
-    setTimeout(async () => {
-      const element = document.getElementById('record-image-content');
-      if (element) {
-        const canvas = await html2canvas(element, {
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    if (contentRef.current) {
+      try {
+        const canvas = await html2canvas(contentRef.current, {
           backgroundColor: '#ffffff',
           scale: 2,
         });
@@ -59,9 +61,13 @@ export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowPro
         link.download = `${unitName}_${record.startDate}_${record.endDate}_fees.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
+      } catch (error) {
+        console.error('Failed to generate image:', error);
       }
-      setShowImage(false);
-    }, 100);
+    } else {
+      console.error('Content element not found');
+    }
+    // setShowImage(false);
   };
 
   return (
@@ -204,7 +210,9 @@ export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowPro
             <Box position="fixed" inset={0} />
           </Dialog.CloseTrigger>
           <Box display="flex" justifyContent="center" alignItems="center" minH="100vh">
-            <RecordImage record={record} unitName={unitName} />
+            <Box ref={contentRef}>
+              <RecordImage record={record} unitName={unitName} />
+            </Box>
           </Box>
         </Dialog.Content>
       </Dialog.Positioner>
