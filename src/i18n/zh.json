@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "水电费计算器"
+  },
+  "toolbar": {
+    "save": "保存",
+    "load": "加载",
+    "loadError": "加载文件失败，请确保是有效的JSON文件。"
+  },
+  "unitList": {
+    "placeholder": "输入单元名称...",
+    "addUnit": "添加单元",
+    "noUnits": "暂无单元",
+    "noUnitsHint": "在上方输入单元名称开始使用"
+  },
+  "unitCard": {
+    "deleteUnit": "删除单元"
+  },
+  "recordTable": {
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "waterMeter": "水表",
+    "waterPrice": "水费单价",
+    "waterFee": "水费",
+    "electricMeter": "电表",
+    "electricPrice": "电费单价",
+    "electricFee": "电费",
+    "extraFee": "附加费",
+    "total": "合计",
+    "addRecord": "添加记录",
+    "noRecords": "暂无记录，点击\"添加记录\"新增。"
+  },
+  "recordRow": {
+    "deleteRecord": "删除记录"
+  },
+  "common": {
+    "arrow": "→"
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  }
+}

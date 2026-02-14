@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "Water & Electric Fee Calculator"
+  },
+  "toolbar": {
+    "save": "Save",
+    "load": "Load",
+    "loadError": "Failed to load file. Please make sure it is a valid JSON file."
+  },
+  "unitList": {
+    "placeholder": "Enter unit name...",
+    "addUnit": "Add Unit",
+    "noUnits": "No units yet",
+    "noUnitsHint": "Enter a unit name above to get started"
+  },
+  "unitCard": {
+    "deleteUnit": "Delete unit"
+  },
+  "recordTable": {
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "waterMeter": "Water Meter",
+    "waterPrice": "Water Price",
+    "waterFee": "Water Fee",
+    "electricMeter": "Electric Meter",
+    "electricPrice": "Electric Price",
+    "electricFee": "Electric Fee",
+    "extraFee": "Extra Fee",
+    "total": "Total",
+    "addRecord": "Add Record",
+    "noRecords": "No records yet. Click \"Add Record\" to add one."
+  },
+  "recordRow": {
+    "deleteRecord": "Delete record"
+  },
+  "common": {
+    "arrow": "→"
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  }
+}
