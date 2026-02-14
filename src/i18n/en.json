@@ -31,7 +31,9 @@
     "noRecords": "No records yet. Click \"Add Record\" to add one."
   },
   "recordRow": {
-    "deleteRecord": "Delete record"
+    "deleteRecord": "Delete record",
+    "downloadImage": "Download as Image",
+    "meterUsage": "Usage"
   },
   "common": {
     "arrow": "→"

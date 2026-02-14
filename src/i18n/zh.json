@@ -31,7 +31,9 @@
     "noRecords": "暂无记录，点击\"添加记录\"新增。"
   },
   "recordRow": {
-    "deleteRecord": "删除记录"
+    "deleteRecord": "删除记录",
+    "downloadImage": "下载图片",
+    "meterUsage": "用量"
   },
   "common": {
     "arrow": "→"

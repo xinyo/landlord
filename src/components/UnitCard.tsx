@@ -75,6 +75,7 @@ export function UnitCard({ unit, onUnitChange, onDelete }: UnitCardProps) {
         </HStack>
         <RecordTable
           records={unit.records}
+          unitName={unit.name}
           onRecordsChange={handleRecordsChange}
         />
       </CardBody>

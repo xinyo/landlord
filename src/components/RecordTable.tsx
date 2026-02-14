@@ -6,10 +6,11 @@ import type { Record } from '../types';
 
 interface RecordTableProps {
   records: Record[];
+  unitName: string;
   onRecordsChange: (records: Record[]) => void;
 }
 
-export function RecordTable({ records, onRecordsChange }: RecordTableProps) {
+export function RecordTable({ records, unitName, onRecordsChange }: RecordTableProps) {
   const { t } = useTranslation();
   const handleAddRecord = () => {
     const today = new Date();
@@ -67,6 +68,7 @@ export function RecordTable({ records, onRecordsChange }: RecordTableProps) {
             <RecordRow
               key={record.id}
               record={record}
+              unitName={unitName}
               onChange={handleUpdateRecord}
               onDelete={() => handleDeleteRecord(record.id)}
             />
