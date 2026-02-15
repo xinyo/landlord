@@ -35,6 +35,9 @@
     "downloadImage": "Download as Image",
     "meterUsage": "Usage"
   },
+  "recordImage": {
+    "generatedOn": "Generated on {{date}}"
+  },
   "common": {
     "arrow": "→"
   },
