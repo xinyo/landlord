@@ -54,7 +54,7 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
   };
 
   return (
-    <HStack gap={4} mb={6}>
+    <HStack gap={4}>
       <Button colorPalette="green" onClick={handleSave}>
         {t('toolbar.save')}
       </Button>

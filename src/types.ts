@@ -17,8 +17,15 @@ export interface Unit {
   records: Record[];
 }
 
+export interface Settings {
+  defaultWaterUnitPrice: number;
+  defaultElectricUnitPrice: number;
+  defaultExtraFee: number;
+}
+
 export interface AppData {
   units: Unit[];
+  settings: Settings;
 }
 
 export interface ComputedValues {

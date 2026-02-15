@@ -33,13 +33,22 @@
   "recordRow": {
     "deleteRecord": "Delete record",
     "downloadImage": "Download as Image",
+    "previewImage": "Preview Image",
     "meterUsage": "Usage"
   },
   "recordImage": {
     "generatedOn": "Generated on {{date}}"
   },
+  "settings": {
+    "title": "Settings",
+    "defaultWaterUnitPrice": "Default Water Unit Price",
+    "defaultElectricUnitPrice": "Default Electric Unit Price",
+    "defaultExtraFee": "Default Extra Fee"
+  },
   "common": {
-    "arrow": "→"
+    "arrow": "→",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "language": {
     "en": "EN",

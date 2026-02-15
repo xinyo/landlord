@@ -1,13 +1,14 @@
-import { Box, Text, VStack, HStack, Flex } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Flex, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import type { Record } from '../types';
 
 interface RecordImageProps {
   record: Record;
   unitName: string;
+  onDownload: () => void;
 }
 
-export function RecordImage({ record, unitName }: RecordImageProps) {
+export function RecordImage({ record, unitName, onDownload }: RecordImageProps) {
   const { t, i18n } = useTranslation();
 
   const formattedDate = new Date().toLocaleDateString(i18n.language === 'zh' ? 'zh-CN' : 'en-US');
@@ -83,7 +84,7 @@ export function RecordImage({ record, unitName }: RecordImageProps) {
           <Text color="gray.600" style={{ color: '#4b5563' }}>{t('recordTable.electricPrice')}:</Text>
           <Text fontWeight="bold" style={{ fontWeight: 'bold' }}>¥{record.electricUnitPrice}/kWh</Text>
         </HStack>
-        <HStack justify="space-between" py={2} pl={4} borderBottom="1px" borderColor="gray.100" style={{ paddingTop: '8px', paddingBottom: '8px', paddingLeft: '16px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between' }}>
+        <HStack justify="space-between" py={2} pl={4} borderBottom="1px" borderColor="gray.100" style={{ paddingTop: '8px', paddingBottom: '8px', paddingLeft: '16px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'spaceBetween' }}>
           <Text fontWeight="medium" color="gray.700" style={{ fontWeight: '500', color: '#374151' }}>{t('recordTable.electricFee')}:</Text>
           <Text fontWeight="bold" color="orange.600" fontSize="lg" style={{ fontWeight: 'bold', color: '#ea580c', fontSize: '18px' }}>¥{computed.electricFeeTotal.toFixed(2)}</Text>
         </HStack>
@@ -104,6 +105,12 @@ export function RecordImage({ record, unitName }: RecordImageProps) {
           <Text fontSize="sm" color="gray.400" style={{ fontSize: '12px', color: '#9ca3af' }}>
             {t('recordImage.generatedOn', { date: formattedDate })}
           </Text>
+        </Box>
+
+        <Box textAlign="center" pt={4}>
+          <Button colorPalette="blue" onClick={onDownload}>
+            {t('recordRow.downloadImage')}
+          </Button>
         </Box>
       </VStack>
     </Box>

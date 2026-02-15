@@ -20,9 +20,19 @@ pnpm run lint
 
 # Preview production build
 pnpm run preview
+
+# Run tests
+pnpm vitest run
 ```
 
 Note: This project requires Node.js 24. Use `nvm use 24` before running commands.
+
+## Testing
+
+- All functional changes should be covered by unit tests
+- Test files should be placed alongside the component they test with `.test.tsx` extension
+- Use vitest for testing framework with @testing-library/react for component testing
+- Mock external dependencies like `uuid` in tests
 
 ## Tech Stack
 

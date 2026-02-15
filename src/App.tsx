@@ -1,29 +1,46 @@
 import { useState } from 'react';
-import { ChakraProvider, Box, Heading, Container, HStack, Button, defaultSystem } from '@chakra-ui/react';
+import { ChakraProvider, Box, Heading, Container, HStack, defaultSystem, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { UnitList, Toolbar } from './components';
-import type { AppData, Unit } from './types';
+import { UnitList, Toolbar, SettingsDialog } from './components';
+import type { AppData, Unit, Settings } from './types';
 import './i18n';
+
+const defaultSettings: Settings = {
+  defaultWaterUnitPrice: 3.5,
+  defaultElectricUnitPrice: 0.6,
+  defaultExtraFee: 10,
+};
 
 const initialData: AppData = {
   units: [],
+  settings: defaultSettings,
 };
 
 function App() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [data, setData] = useState<AppData>(initialData);
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleUnitsChange = (units: Unit[]) => {
-    setData({ units });
+    setData({ ...data, units });
   };
 
   const handleDataLoad = (loadedData: AppData) => {
-    setData(loadedData);
+    // Ensure loaded data has settings, otherwise use defaults
+    const mergedData = {
+      ...initialData,
+      ...loadedData,
+      settings: loadedData.settings ? { ...defaultSettings, ...loadedData.settings } : defaultSettings,
+    };
+    setData(mergedData);
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'zh' : 'en';
-    i18n.changeLanguage(newLang);
+  const openSettings = () => {
+    setShowSettings(true);
+  };
+
+  const saveSettings = (settings: Settings) => {
+    setData({ ...data, settings });
   };
 
   return (
@@ -31,15 +48,29 @@ function App() {
       <Box minH="100vh" bg="gray.50" py={8}>
         <Container maxW="container.xl">
           <HStack justify="space-between" mb={2}>
-            <Heading size="lg" color="gray.700">{t('app.title')}</Heading>
-            <Button onClick={toggleLanguage} variant="outline" size="sm">
-              {i18n.language === 'en' ? t('language.zh') : t('language.en')}
-            </Button>
+            <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
+            <HStack gap={4}>
+              <Toolbar data={data} onDataLoad={handleDataLoad} />
+              <Button
+                aria-label={t('settings.title')}
+                variant="outline"
+                onClick={openSettings}
+              >
+                {t('settings.title')}
+              </Button>
+            </HStack>
           </HStack>
-          <Toolbar data={data} onDataLoad={handleDataLoad} />
+          
           <UnitList units={data.units} onUnitsChange={handleUnitsChange} />
         </Container>
       </Box>
+
+      <SettingsDialog
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        settings={data.settings}
+        onSave={saveSettings}
+      />
     </ChakraProvider>
   );
 }

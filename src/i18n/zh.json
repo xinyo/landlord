@@ -33,13 +33,22 @@
   "recordRow": {
     "deleteRecord": "删除记录",
     "downloadImage": "下载图片",
+    "previewImage": "预览图片",
     "meterUsage": "用量"
   },
   "recordImage": {
     "generatedOn": "生成于 {{date}}"
   },
+  "settings": {
+    "title": "设置",
+    "defaultWaterUnitPrice": "默认水费单价",
+    "defaultElectricUnitPrice": "默认电费单价",
+    "defaultExtraFee": "默认垃圾管理费"
+  },
   "common": {
-    "arrow": "→"
+    "arrow": "→",
+    "save": "保存",
+    "cancel": "取消"
   },
   "language": {
     "en": "EN",
