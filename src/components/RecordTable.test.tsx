@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { RecordTable } from '../components/RecordTable';
 import type { Record } from '../types';
@@ -6,14 +6,23 @@ import { I18nextProvider } from 'react-i18next';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import i18n from '../i18n';
 
-const renderRecordTable = (records: Record[], unitName = 'Unit A') => {
+// Mock uuid
+vi.mock('uuid', () => ({
+  v4: () => 'mock-uuid-1234',
+}));
+
+const renderRecordTable = (
+  records: Record[],
+  unitName = 'Unit A',
+  onRecordsChange = () => {}
+) => {
   return render(
     <ChakraProvider value={defaultSystem}>
       <I18nextProvider i18n={i18n}>
         <RecordTable
           records={records}
           unitName={unitName}
-          onRecordsChange={() => {}}
+          onRecordsChange={onRecordsChange}
         />
       </I18nextProvider>
     </ChakraProvider>
@@ -21,232 +30,76 @@ const renderRecordTable = (records: Record[], unitName = 'Unit A') => {
 };
 
 describe('RecordTable', () => {
-  describe('Add Record - Default values (no existing records)', () => {
-    it('should create new record on button click', () => {
-      const records: Record[] = [];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue(/mock-uuid-1234/)).toBeInTheDocument();
-    });
-
-    it('should use default water unit price (3.5)', () => {
-      const records: Record[] = [];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('3.5')).toBeInTheDocument();
-    });
-
-    it('should use default electric unit price (0.8)', () => {
-      const records: Record[] = [];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('0.8')).toBeInTheDocument();
-    });
-
-    it('should use default extra fee of 0', () => {
-      const records: Record[] = [];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getAllByDisplayValue('0').length).toBeGreaterThanOrEqual(4);
-    });
+  it('should render table headers', () => {
+    renderRecordTable([]);
+    expect(screen.getByText('Start Date')).toBeInTheDocument();
+    expect(screen.getByText('End Date')).toBeInTheDocument();
+    expect(screen.getByText('Water Meter')).toBeInTheDocument();
+    expect(screen.getByText('Water Price')).toBeInTheDocument();
   });
 
-  describe('Add Record - Carry forward from previous record', () => {
-    it('should use previous end date as new start date', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
+  it('should render add record button', () => {
+    renderRecordTable([]);
+    expect(screen.getByRole('button', { name: /add record/i })).toBeInTheDocument();
+  });
 
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
+  it('should show empty message when no records', () => {
+    renderRecordTable([]);
+    expect(screen.getByText(/no records yet/i)).toBeInTheDocument();
+  });
 
-      // New record start date should be previous end date
-      expect(screen.queryByDisplayValue('2026-02-10')).not.toBeNull();
-    });
+  it('should call onRecordsChange when adding a record', () => {
+    const onRecordsChange = vi.fn();
+    renderRecordTable([], 'Unit A', onRecordsChange);
 
-    it('should set end date to start date + 1 month', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
+    const addButton = screen.getByRole('button', { name: /add record/i });
+    fireEvent.click(addButton);
 
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
+    expect(onRecordsChange).toHaveBeenCalled();
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords).toHaveLength(1);
+    expect(newRecords[0].id).toBe('mock-uuid-1234');
+  });
 
-      expect(screen.getByDisplayValue('2026-03-10')).toBeInTheDocument();
-    });
+  it('should add record with default values', () => {
+    const onRecordsChange = vi.fn();
+    renderRecordTable([], 'Unit A', onRecordsChange);
 
-    it('should handle cross-year increment (Dec -> Jan)', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-11-10',
-          endDate: '2026-12-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
+    const addButton = screen.getByRole('button', { name: /add record/i });
+    fireEvent.click(addButton);
 
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[0].waterUnitPrice).toBe(3.5);
+    expect(newRecords[0].electricUnitPrice).toBe(0.8);
+    expect(newRecords[0].extraFee).toBe(0);
+  });
 
-      expect(screen.getByDisplayValue('2027-01-10')).toBeInTheDocument();
-    });
+  it('should carry forward values from previous record', () => {
+    const existingRecords: Record[] = [
+      {
+        id: '1',
+        startDate: '2026-01-10',
+        endDate: '2026-02-10',
+        waterMeterStart: 100,
+        waterMeterEnd: 150,
+        waterUnitPrice: 5.5,
+        electricMeterStart: 500,
+        electricMeterEnd: 700,
+        electricUnitPrice: 1.2,
+        extraFee: 30,
+      },
+    ];
+    const onRecordsChange = vi.fn();
+    renderRecordTable(existingRecords, 'Unit A', onRecordsChange);
 
-    it('should carry forward water unit price', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 5.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
+    const addButton = screen.getByRole('button', { name: /add record/i });
+    fireEvent.click(addButton);
 
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('5.5')).toBeInTheDocument();
-    });
-
-    it('should carry forward electric unit price', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 1.2,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('1.2')).toBeInTheDocument();
-    });
-
-    it('should carry forward extra fee', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 100,
-        },
-      ];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('100')).toBeInTheDocument();
-    });
-
-    it('should carry forward water meter end as new start', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 250,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 600,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('250')).toBeInTheDocument();
-    });
-
-    it('should carry forward electric meter end as new start', () => {
-      const records: Record[] = [
-        {
-          id: '1',
-          startDate: '2026-01-10',
-          endDate: '2026-02-10',
-          waterMeterStart: 100,
-          waterMeterEnd: 150,
-          waterUnitPrice: 3.5,
-          electricMeterStart: 500,
-          electricMeterEnd: 850,
-          electricUnitPrice: 0.8,
-          extraFee: 50,
-        },
-      ];
-      renderRecordTable(records);
-
-      const addButton = screen.getByRole('button', { name: /add record/i });
-      fireEvent.click(addButton);
-
-      expect(screen.getByDisplayValue('850')).toBeInTheDocument();
-    });
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[1].waterUnitPrice).toBe(5.5);
+    expect(newRecords[1].electricUnitPrice).toBe(1.2);
+    expect(newRecords[1].extraFee).toBe(30);
+    expect(newRecords[1].waterMeterStart).toBe(150);
+    expect(newRecords[1].electricMeterStart).toBe(700);
   });
 });

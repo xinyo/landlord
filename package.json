@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.33.0",
@@ -16,6 +17,7 @@
     "framer-motion": "^12.34.0",
     "html2canvas": "^1.4.1",
     "i18next": "^25.8.7",
+    "lucide-react": "^0.564.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-i18next": "^16.5.4",
@@ -30,7 +32,6 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@types/uuid": "^11.0.0",
     "@vitejs/plugin-react": "^5.1.1",
     "esbuild": "^0.27.3",
     "eslint": "^9.39.1",
