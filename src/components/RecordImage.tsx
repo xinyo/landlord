@@ -10,6 +10,8 @@ interface RecordImageProps {
 export function RecordImage({ record, unitName }: RecordImageProps) {
   const { t, i18n } = useTranslation();
 
+  const formattedDate = new Date().toLocaleDateString(i18n.language === 'zh' ? 'zh-CN' : 'en-US');
+
   const computed = {
     waterUsage: Math.max(0, record.waterMeterEnd - record.waterMeterStart),
     electricUsage: Math.max(0, record.electricMeterEnd - record.electricMeterStart),
@@ -25,23 +27,23 @@ export function RecordImage({ record, unitName }: RecordImageProps) {
       borderRadius="lg"
       boxShadow="xl"
       maxW="800px"
-      minW="50vw"
+      minW="40vw"
       width="100%"
       mx="auto"
       style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
     >
       <VStack gap={1} align="stretch">
-        <Flex pb={4}>
+        <Flex pb={8} justify="space-between">
           <Box flex="1" textAlign="left">
-            <Text fontSize="2xl" fontWeight="bold" style={{ fontSize: '24px', fontWeight: 'bold', color: '#374151' }}>
+            <Text fontSize="2xl" fontWeight="bold" >
               {t('app.title')}
             </Text>
           </Box>
           <Box textAlign="right">
-            <Text fontSize="lg" fontWeight="bold" style={{ fontSize: '18px', color: '#4b5563' }}>
+            <Text fontSize="2xl" fontWeight="bold" >
               {unitName}
             </Text>
-          </Box>          
+          </Box>
         </Flex>
 
         <HStack justify="space-between" py={2} borderBottom="1px" borderColor="gray.100" style={{ paddingTop: '8px', paddingBottom: '8px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between' }}>
@@ -98,9 +100,9 @@ export function RecordImage({ record, unitName }: RecordImageProps) {
           </HStack>
         </Box>
 
-        <Box textAlign="center" pt={2} borderTop="2px" borderColor="gray.200" style={{ paddingTop: '8px', textAlign: 'center', borderTop: '2px solid #e5e7eb' }}>
+        <Box textAlign="center" pt={2} style={{ paddingTop: '8px', textAlign: 'center'}}>
           <Text fontSize="sm" color="gray.400" style={{ fontSize: '12px', color: '#9ca3af' }}>
-            Generated on {new Date().toLocaleDateString(i18n.language === 'zh' ? 'zh-CN' : 'en-US')}
+            {t('recordImage.generatedOn', { date: formattedDate })}
           </Text>
         </Box>
       </VStack>
