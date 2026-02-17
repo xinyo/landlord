@@ -2,24 +2,25 @@ import { Box, Button, Table } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { RecordRow } from './RecordRow';
-import type { Record } from '../types';
+import type { Record, Settings } from '../types';
 
 interface RecordTableProps {
   records: Record[];
   unitName: string;
   onRecordsChange: (records: Record[]) => void;
+  settings: Settings;
 }
 
-export function RecordTable({ records, unitName, onRecordsChange }: RecordTableProps) {
+export function RecordTable({ records, unitName, onRecordsChange, settings }: RecordTableProps) {
   const { t } = useTranslation();
   const handleAddRecord = () => {
     const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
     let startDate: Date;
     let endDate: Date;
-    let waterUnitPrice = 3.5;
-    let electricUnitPrice = 0.8;
-    let extraFee = 0;
+    let waterUnitPrice = settings.defaultWaterUnitPrice;
+    let electricUnitPrice = settings.defaultElectricUnitPrice;
+    let extraFee = settings.defaultExtraFee;
     let waterMeterStart = 0;
     let electricMeterStart = 0;
 

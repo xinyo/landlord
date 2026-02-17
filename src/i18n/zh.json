@@ -54,4 +54,9 @@
     "en": "EN",
     "zh": "中文"
   }
+  ,
+  "footer": {
+    "credit": "© {{year}} 房屋水电 — 由 MiniMax，Claude Code 和 ClawdBot 用❤️制作",
+    "github": "GitHub"
+  }
 }

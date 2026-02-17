@@ -54,4 +54,9 @@
     "en": "EN",
     "zh": "中文"
   }
+  ,
+  "footer": {
+    "credit": "© {{year}} Rental Utilities — made with ❤️ by MiniMax, Claude Code and ClawdBot",
+    "github": "GitHub"
+  }
 }
