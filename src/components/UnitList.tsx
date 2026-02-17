@@ -3,14 +3,15 @@ import { Box, Button, Input, HStack, VStack, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { UnitCard } from './UnitCard';
-import type { Unit } from '../types';
+import type { Unit, Settings } from '../types';
 
 interface UnitListProps {
   units: Unit[];
+  settings: Settings;
   onUnitsChange: (units: Unit[]) => void;
 }
 
-export function UnitList({ units, onUnitsChange }: UnitListProps) {
+export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
   const { t } = useTranslation();
   const [newUnitName, setNewUnitName] = useState('');
 
@@ -63,6 +64,7 @@ export function UnitList({ units, onUnitsChange }: UnitListProps) {
           <UnitCard
             key={unit.id}
             unit={unit}
+            settings={settings}
             onUnitChange={handleUpdateUnit}
             onDelete={() => handleDeleteUnit(unit.id)}
           />

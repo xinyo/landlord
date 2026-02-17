@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { RecordTable } from '../components/RecordTable';
-import type { Record } from '../types';
+import type { Record, Settings } from '../types';
 import { I18nextProvider } from 'react-i18next';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import i18n from '../i18n';
@@ -11,10 +11,17 @@ vi.mock('uuid', () => ({
   v4: () => 'mock-uuid-1234',
 }));
 
+const defaultSettings: Settings = {
+  defaultWaterUnitPrice: 3.5,
+  defaultElectricUnitPrice: 0.6,
+  defaultExtraFee: 10,
+};
+
 const renderRecordTable = (
   records: Record[],
   unitName = 'Unit A',
-  onRecordsChange = () => {}
+  onRecordsChange = () => {},
+  settings: Settings = defaultSettings
 ) => {
   return render(
     <ChakraProvider value={defaultSystem}>
@@ -23,6 +30,7 @@ const renderRecordTable = (
           records={records}
           unitName={unitName}
           onRecordsChange={onRecordsChange}
+          settings={settings}
         />
       </I18nextProvider>
     </ChakraProvider>
@@ -61,17 +69,17 @@ describe('RecordTable', () => {
     expect(newRecords[0].id).toBe('mock-uuid-1234');
   });
 
-  it('should add record with default values', () => {
+  it('should add record with default values from settings', () => {
     const onRecordsChange = vi.fn();
-    renderRecordTable([], 'Unit A', onRecordsChange);
+    renderRecordTable([], 'Unit A', onRecordsChange, defaultSettings);
 
     const addButton = screen.getByRole('button', { name: /add record/i });
     fireEvent.click(addButton);
 
     const newRecords = onRecordsChange.mock.calls[0][0];
     expect(newRecords[0].waterUnitPrice).toBe(3.5);
-    expect(newRecords[0].electricUnitPrice).toBe(0.8);
-    expect(newRecords[0].extraFee).toBe(0);
+    expect(newRecords[0].electricUnitPrice).toBe(0.6);
+    expect(newRecords[0].extraFee).toBe(10);
   });
 
   it('should carry forward values from previous record', () => {
@@ -90,7 +98,7 @@ describe('RecordTable', () => {
       },
     ];
     const onRecordsChange = vi.fn();
-    renderRecordTable(existingRecords, 'Unit A', onRecordsChange);
+    renderRecordTable(existingRecords, 'Unit A', onRecordsChange, defaultSettings);
 
     const addButton = screen.getByRole('button', { name: /add record/i });
     fireEvent.click(addButton);

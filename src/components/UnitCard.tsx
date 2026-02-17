@@ -9,15 +9,16 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { RecordTable } from './RecordTable';
-import type { Unit, Record } from '../types';
+import type { Unit, Record, Settings } from '../types';
 
 interface UnitCardProps {
   unit: Unit;
+  settings: Settings;
   onUnitChange: (unit: Unit) => void;
   onDelete: () => void;
 }
 
-export function UnitCard({ unit, onUnitChange, onDelete }: UnitCardProps) {
+export function UnitCard({ unit, settings, onUnitChange, onDelete }: UnitCardProps) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(unit.name);
@@ -77,6 +78,7 @@ export function UnitCard({ unit, onUnitChange, onDelete }: UnitCardProps) {
           records={unit.records}
           unitName={unit.name}
           onRecordsChange={handleRecordsChange}
+          settings={settings}
         />
       </CardBody>
     </CardRoot>

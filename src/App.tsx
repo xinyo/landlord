@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChakraProvider, Box, Heading, Container, HStack, defaultSystem, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { UnitList, Toolbar, SettingsDialog } from './components';
+import { UnitList, Toolbar, SettingsDialog, Footer } from './components';
 import type { AppData, Unit, Settings } from './types';
 import './i18n';
 
@@ -45,8 +45,9 @@ function App() {
 
   return (
     <ChakraProvider value={defaultSystem}>
-      <Box minH="100vh" bg="gray.50" py={8}>
-        <Container maxW="container.xl">
+      <Box minH="100vh" bg="gray.50" display="flex" flexDirection="column">
+        <Box flex="1" py={8}>
+          <Container maxW="container.xl">
           <HStack justify="space-between" mb={2}>
             <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
             <HStack gap={4}>
@@ -61,8 +62,11 @@ function App() {
             </HStack>
           </HStack>
           
-          <UnitList units={data.units} onUnitsChange={handleUnitsChange} />
-        </Container>
+            <UnitList units={data.units} settings={data.settings} onUnitsChange={handleUnitsChange} />
+          </Container>
+        </Box>
+
+        <Footer />
       </Box>
 
       <SettingsDialog
