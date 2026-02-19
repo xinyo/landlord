@@ -58,7 +58,7 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
       <Button colorPalette="green" onClick={handleSave}>
         {t('toolbar.save')}
       </Button>
-      <Button colorPalette="blue" onClick={handleLoadClick}>
+      <Button onClick={handleLoadClick}>
         {t('toolbar.load')}
       </Button>
       <Input
