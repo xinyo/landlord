@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChakraProvider, Box, Heading, Container, HStack, defaultSystem, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Settings2 } from 'lucide-react';
 import { UnitList, Toolbar, SettingsDialog, Footer } from './components';
 import type { AppData, Unit, Settings } from './types';
 import './i18n';
@@ -57,6 +58,7 @@ function App() {
                 variant="outline"
                 onClick={openSettings}
               >
+                <Settings2 size={16} />
                 {t('settings.title')}
               </Button>
             </HStack>
