@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { HStack, Button, Input } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { Save, Upload } from 'lucide-react';
 import type { AppData } from '../types';
 
 interface ToolbarProps {
@@ -56,9 +57,11 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
   return (
     <HStack gap={4}>
       <Button colorPalette="green" onClick={handleSave}>
+        <Save size={16} />
         {t('toolbar.save')}
       </Button>
-      <Button onClick={handleLoadClick}>
+      <Button variant="outline" onClick={handleLoadClick}>
+        <Upload size={16} />
         {t('toolbar.load')}
       </Button>
       <Input
