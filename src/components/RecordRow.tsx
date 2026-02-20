@@ -201,16 +201,48 @@ export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowPro
     </Box>
 
     <Dialog.Root open={showImage} onOpenChange={(e) => setShowImage(e.open)}>
-      <Dialog.Backdrop />
+      <Dialog.Backdrop bg="blackAlpha.600" />
       <Dialog.Positioner>
-        <Dialog.Content bg="transparent" boxShadow="none">
-          <Dialog.CloseTrigger asChild>
-            <Box position="fixed" inset={0} />
-          </Dialog.CloseTrigger>
-          <Box display="flex" justifyContent="center" alignItems="center" minH="100vh">
-            <Box ref={contentRef}>
+        <Dialog.Content
+          bg="transparent"
+          boxShadow="none"
+          width={{ base: "100%", md: "auto" }}
+          maxWidth={{ base: "100vw", md: "900px" }}
+          maxHeight={{ base: "100vh", md: "90vh" }}
+          margin={{ base: 0, md: "auto" }}
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            overflowY="auto"
+            minH={{ base: "calc(100vh - 40px)", md: "auto" }}
+            p={{ base: 4, md: 0 }}
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#CBD5E0',
+                borderRadius: '3px',
+              },
+            }}
+          >
+            <Box ref={contentRef} maxWidth="100%">
               <RecordImage record={record} unitName={unitName} onDownload={handleDownloadImage} />
             </Box>
+            {/* Close button for mobile */}
+            <Button
+              mt={4}
+              size="sm"
+              variant="outline"
+              colorPalette="gray"
+              onClick={() => setShowImage(false)}
+              display={{ base: "flex", md: "none" }}
+            >
+              {t('common.close')}
+            </Button>
           </Box>
         </Dialog.Content>
       </Dialog.Positioner>
