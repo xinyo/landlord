@@ -35,8 +35,14 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
-          <Dialog.Header>
+        <Dialog.Content
+          width={{ base: "100%", sm: "90vw", md: "400px" }}
+          maxWidth={{ base: "100%", sm: "90vw", md: "400px" }}
+          maxHeight={{ base: "100vh", md: "90vh" }}
+          display="flex"
+          flexDirection="column"
+        >
+          <Dialog.Header flexShrink={0}>
             <HStack justify="space-between" width="100%">
               <Dialog.Title>{t('settings.title')}</Dialog.Title>
               <Button variant="outline" size="sm" onClick={toggleLanguage}>
@@ -44,7 +50,19 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
               </Button>
             </HStack>
           </Dialog.Header>
-          <Dialog.Body>
+          <Dialog.Body
+            overflowY="auto"
+            flex="1"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#CBD5E0',
+                borderRadius: '3px',
+              },
+            }}
+          >
             <VStack gap={4} align="stretch">
               <Field.Root>
                 <Field.Label>{t('settings.defaultWaterUnitPrice')}</Field.Label>
@@ -75,7 +93,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
               </Field.Root>
             </VStack>
           </Dialog.Body>
-          <Dialog.Footer>
+          <Dialog.Footer flexShrink={0}>
             <Button variant="outline" onClick={onClose}>
               {t('common.cancel')}
             </Button>
