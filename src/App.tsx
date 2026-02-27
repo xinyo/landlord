@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChakraProvider, Box, Heading, Container, HStack, defaultSystem, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { Settings2 } from 'lucide-react';
+import { Settings2, Languages } from 'lucide-react';
 import { UnitList, Toolbar, SettingsDialog, Footer } from './components';
 import type { AppData, Unit, Settings } from './types';
 import './i18n';
@@ -29,7 +29,15 @@ function App() {
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
     i18n.changeLanguage(newLang);
+    localStorage.setItem('language', newLang);
   };
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   const handleDataLoad = (loadedData: AppData) => {
     // Ensure loaded data has settings, otherwise use defaults
@@ -63,6 +71,7 @@ function App() {
                 size="sm"
                 onClick={toggleLanguage}
               >
+                <Languages size={16} />
                 {i18n.language === 'en' ? t('language.zh') : t('language.en')}
               </Button>
               <Button
