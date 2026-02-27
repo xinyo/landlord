@@ -5,7 +5,6 @@ import {
   VStack,
   Field,
   Dialog,
-  HStack,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import type { Settings } from '../types';
@@ -18,17 +17,12 @@ interface SettingsDialogProps {
 }
 
 export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDialogProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [tempSettings, setTempSettings] = useState<Settings>(settings);
 
   const handleSave = () => {
     onSave(tempSettings);
     onClose();
-  };
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'zh' : 'en';
-    i18n.changeLanguage(newLang);
   };
 
   return (
@@ -37,12 +31,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
       <Dialog.Positioner>
         <Dialog.Content>
           <Dialog.Header>
-            <HStack justify="space-between" width="100%">
-              <Dialog.Title>{t('settings.title')}</Dialog.Title>
-              <Button variant="outline" size="sm" onClick={toggleLanguage}>
-                {i18n.language === 'en' ? t('language.zh') : t('language.en')}
-              </Button>
-            </HStack>
+            <Dialog.Title>{t('settings.title')}</Dialog.Title>
           </Dialog.Header>
           <Dialog.Body>
             <VStack gap={4} align="stretch">

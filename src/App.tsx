@@ -18,12 +18,17 @@ const initialData: AppData = {
 };
 
 function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState<AppData>(initialData);
   const [showSettings, setShowSettings] = useState(false);
 
   const handleUnitsChange = (units: Unit[]) => {
     setData({ ...data, units });
+  };
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'zh' : 'en';
+    i18n.changeLanguage(newLang);
   };
 
   const handleDataLoad = (loadedData: AppData) => {
@@ -53,6 +58,13 @@ function App() {
             <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
             <HStack gap={4}>
               <Toolbar data={data} onDataLoad={handleDataLoad} />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleLanguage}
+              >
+                {i18n.language === 'en' ? t('language.zh') : t('language.en')}
+              </Button>
               <Button
                 aria-label={t('settings.title')}
                 variant="outline"
