@@ -34,6 +34,9 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
 
     onUnitsChange([...units, newUnit]);
     setNewUnitName('');
+    if (isMobile) {
+      setSelectedUnitId(newUnit.id);
+    }
   };
 
   const handleUpdateUnit = (updatedUnit: Unit) => {
