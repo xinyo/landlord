@@ -17,11 +17,36 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
   const [newUnitName, setNewUnitName] = useState('');
   const isMobile = useMobile();
   const [selectedUnitId, setSelectedUnitId] = useState<string>('');
+  // Track the last selected record ID for each unit
+  const [unitRecordSelections, setUnitRecordSelections] = useState<Record<string, string>>({});
 
-  // Derive effective selected unit - fall back to first unit if selection is invalid
+  // Derive effective selected unit - always use a valid unit id
   const effectiveSelectedUnitId = units.length > 0
-    ? (units.find(u => u.id === selectedUnitId) ? selectedUnitId : units[0].id)
+    ? (selectedUnitId || units[0].id)
     : '';
+
+  // Get the selected record ID for the current unit
+  const effectiveSelectedRecordId = (() => {
+    const unit = units.find(u => u.id === effectiveSelectedUnitId);
+    if (!unit || unit.records.length === 0) return '';
+    const savedRecordId = unitRecordSelections[effectiveSelectedUnitId];
+    if (savedRecordId && unit.records.some(r => r.id === savedRecordId)) {
+      return savedRecordId;
+    }
+    // Default to last record
+    return unit.records[unit.records.length - 1].id;
+  })();
+
+  // Handle unit selection change
+  const handleUnitChange = (newUnitId: string) => {
+    setSelectedUnitId(newUnitId);
+
+    setUnitRecordSelections(prev => {
+      const newSelections = { ...prev };
+      delete newSelections[newUnitId];
+      return newSelections;
+    });
+  };
 
   const handleAddUnit = () => {
     if (!newUnitName.trim()) return;
@@ -34,9 +59,7 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
 
     onUnitsChange([...units, newUnit]);
     setNewUnitName('');
-    if (isMobile) {
-      setSelectedUnitId(newUnit.id);
-    }
+    setSelectedUnitId(newUnit.id);
   };
 
   const handleUpdateUnit = (updatedUnit: Unit) => {
@@ -74,8 +97,8 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
         <Box mb={4}>
           <NativeSelect.Root>
             <NativeSelect.Field
-              value={selectedUnitId}
-              onChange={(e) => setSelectedUnitId(e.target.value)}
+              value={effectiveSelectedUnitId}
+              onChange={(e) => handleUnitChange(e.target.value)}
             >
               {units.map((unit) => (
                 <option key={unit.id} value={unit.id}>
@@ -91,10 +114,12 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
       {units.length > 0 && (
         isMobile && units.length > 1 ? (
           <UnitCard
+            key={effectiveSelectedUnitId}
             unit={units.find(u => u.id === effectiveSelectedUnitId) || units[0]}
             settings={settings}
             onUnitChange={handleUpdateUnit}
             onDelete={() => handleDeleteUnit(effectiveSelectedUnitId)}
+            initialRecordId={effectiveSelectedRecordId}
           />
         ) : (
           units.map((unit) => (

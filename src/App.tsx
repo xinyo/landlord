@@ -66,7 +66,7 @@ function App() {
           <Container maxW="container.xl">
           {isMobile ? (
             <Box mb={8}>
-              <HStack justify="center" mb={2}>
+              <HStack justify="center" mb={isMobile ? 4 : 8}>
                 <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
               </HStack>
               <HStack justify="space-between" gap={2}>
