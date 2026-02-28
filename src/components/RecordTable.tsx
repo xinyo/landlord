@@ -105,21 +105,23 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
       )}
 
       <Table.Root size="sm">
-        <Table.Header>
-          <Table.Row bg="gray.200">
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.startDate')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.endDate')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterMeter')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterPrice')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterFee')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricMeter')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricPrice')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricFee')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.extraFee')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2}>{t('recordTable.total')}</Table.ColumnHeader>
-            <Table.ColumnHeader py={3} px={2} width="50px"></Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
+        {!isMobile && (
+          <Table.Header>
+            <Table.Row bg="gray.200">
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.startDate')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.endDate')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterMeter')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterPrice')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.waterFee')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricMeter')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricPrice')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.electricFee')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.extraFee')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2}>{t('recordTable.total')}</Table.ColumnHeader>
+              <Table.ColumnHeader py={3} px={2} width="50px"></Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+        )}
         <Table.Body>
           {(isMobile && records.length > 1 ? records.filter(r => r.id === effectiveSelectedRecordId) : records).map((record) => (
             <RecordRow
