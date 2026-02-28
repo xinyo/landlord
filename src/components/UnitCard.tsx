@@ -16,9 +16,10 @@ interface UnitCardProps {
   settings: Settings;
   onUnitChange: (unit: Unit) => void;
   onDelete: () => void;
+  initialRecordId?: string;
 }
 
-export function UnitCard({ unit, settings, onUnitChange, onDelete }: UnitCardProps) {
+export function UnitCard({ unit, settings, onUnitChange, onDelete, initialRecordId }: UnitCardProps) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(unit.name);
@@ -79,6 +80,7 @@ export function UnitCard({ unit, settings, onUnitChange, onDelete }: UnitCardPro
           unitName={unit.name}
           onRecordsChange={handleRecordsChange}
           settings={settings}
+          initialRecordId={initialRecordId}
         />
       </CardBody>
     </CardRoot>
