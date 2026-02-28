@@ -1,6 +1,7 @@
 import { useMemo, useState, useRef } from 'react';
 import {
   HStack,
+  VStack,
   Input,
   Text,
   IconButton,
@@ -18,9 +19,10 @@ interface RecordRowProps {
   unitName: string;
   onChange: (record: Record) => void;
   onDelete: () => void;
+  isMobile?: boolean;
 }
 
-export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowProps) {
+export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: RecordRowProps) {
   const { t } = useTranslation();
   const [showImage, setShowImage] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -71,143 +73,291 @@ export function RecordRow({ record, unitName, onChange, onDelete }: RecordRowPro
 
   return (
     <>
-      <Box
-        as="tr"
-        _odd={{ bg: 'gray.50' }}
-        _hover={{ bg: 'gray.100' }}
-      >
-      <Box as="td" py={2} px={2}>
-        <Input
-          size="sm"
-          type="date"
-          value={record.startDate}
-          onChange={(e) => handleChange('startDate', e.target.value)}
-        />
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <Input
-          size="sm"
-          type="date"
-          value={record.endDate}
-          onChange={(e) => handleChange('endDate', e.target.value)}
-        />
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <HStack>
+      {isMobile ? (
+        <Box
+          borderWidth="1px"
+          borderRadius="md"
+          p={3}
+          bg="gray.50"
+          _hover={{ bg: "gray.100" }}
+          mb={2}
+        >
+          <VStack gap={3} align="stretch">
+              {/* Section 1: Date */}
+              <Box>
+                <Text fontWeight="bold" fontSize="sm" mb={1}>{t('recordTable.startDate')} - {t('recordTable.endDate')}</Text>
+                <HStack>
+                  <Input
+                    size="sm"
+                    type="date"
+                    value={record.startDate}
+                    onChange={(e) => handleChange('startDate', e.target.value)}
+                  />
+                  <Input
+                    size="sm"
+                    type="date"
+                    value={record.endDate}
+                    onChange={(e) => handleChange('endDate', e.target.value)}
+                  />
+                </HStack>
+              </Box>
+
+              {/* Section 2: Water */}
+              <Box>
+                <Text fontWeight="bold" fontSize="sm" mb={1} color="blue.600">{t('recordTable.waterMeter')} ({computed.waterFeeTotal.toFixed(2)})</Text>
+                <VStack gap={1}>
+                  <HStack>
+                    <Input
+                      size="sm"
+                      type="number"
+                      placeholder={t('recordTable.waterMeter')}
+                      value={record.waterMeterStart}
+                      onChange={(e) => handleChange('waterMeterStart', Number(e.target.value))}
+                    />
+                    <Text fontSize="xs">{t('common.arrow')}</Text>
+                    <Input
+                      size="sm"
+                      type="number"
+                      value={record.waterMeterEnd}
+                      onChange={(e) => handleChange('waterMeterEnd', Number(e.target.value))}
+                    />
+                  </HStack>
+                  <HStack>
+                    <Input
+                      size="sm"
+                      type="number"
+                      step="0.01"
+                      placeholder={t('recordTable.waterPrice')}
+                      value={record.waterUnitPrice}
+                      onChange={(e) => handleChange('waterUnitPrice', Number(e.target.value))}
+                    />
+                    <Text fontSize="sm" color="gray.500">=</Text>
+                    <Text fontSize="sm" fontWeight="medium" color="blue.600">{computed.waterFeeTotal.toFixed(2)}</Text>
+                  </HStack>
+                </VStack>
+              </Box>
+
+              {/* Section 3: Electric */}
+              <Box>
+                <Text fontWeight="bold" fontSize="sm" mb={1} color="orange.600">{t('recordTable.electricMeter')} ({computed.electricFeeTotal.toFixed(2)})</Text>
+                <VStack gap={1}>
+                  <HStack>
+                    <Input
+                      size="sm"
+                      type="number"
+                      placeholder={t('recordTable.electricMeter')}
+                      value={record.electricMeterStart}
+                      onChange={(e) => handleChange('electricMeterStart', Number(e.target.value))}
+                    />
+                    <Text fontSize="xs">{t('common.arrow')}</Text>
+                    <Input
+                      size="sm"
+                      type="number"
+                      value={record.electricMeterEnd}
+                      onChange={(e) => handleChange('electricMeterEnd', Number(e.target.value))}
+                    />
+                  </HStack>
+                  <HStack>
+                    <Input
+                      size="sm"
+                      type="number"
+                      step="0.01"
+                      placeholder={t('recordTable.electricPrice')}
+                      value={record.electricUnitPrice}
+                      onChange={(e) => handleChange('electricUnitPrice', Number(e.target.value))}
+                    />
+                    <Text fontSize="sm" color="gray.500">=</Text>
+                    <Text fontSize="sm" fontWeight="medium" color="orange.600">{computed.electricFeeTotal.toFixed(2)}</Text>
+                  </HStack>
+                </VStack>
+              </Box>
+
+              {/* Section 4: Extra & Total */}
+              <Box>
+                <Text fontWeight="bold" fontSize="sm" mb={1}>{t('recordTable.extraFee')} & {t('recordTable.total')}</Text>
+                <HStack>
+                  <Input
+                    size="sm"
+                    type="number"
+                    step="0.01"
+                    placeholder={t('recordTable.extraFee')}
+                    value={record.extraFee}
+                    onChange={(e) => handleChange('extraFee', Number(e.target.value))}
+                  />
+                  <Text fontSize="sm" color="gray.500">=</Text>
+                  <Text fontSize="lg" fontWeight="bold" color="green.600">{computed.allFeeTotal.toFixed(2)}</Text>
+                </HStack>
+              </Box>
+
+              {/* Actions */}
+              <HStack justify="flex-end" gap={2}>
+                <IconButton
+                  aria-label={t('recordRow.deleteRecord')}
+                  size="sm"
+                  colorPalette="red"
+                  variant="ghost"
+                  onClick={onDelete}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                  </svg>
+                </IconButton>
+                <Button
+                  size="sm"
+                  colorPalette="blue"
+                  variant="ghost"
+                  onClick={handlePreview}
+                  title={t('recordRow.previewImage')}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </Button>
+              </HStack>
+            </VStack>
+        </Box>
+      ) : (
+        <Box
+          as="tr"
+          _odd={{ bg: 'gray.50' }}
+          _hover={{ bg: 'gray.100' }}
+        >
+        <Box as="td" py={2} px={2}>
+          <Input
+            size="sm"
+            type="date"
+            value={record.startDate}
+            onChange={(e) => handleChange('startDate', e.target.value)}
+          />
+        </Box>
+        <Box as="td" py={2} px={2}>
+          <Input
+            size="sm"
+            type="date"
+            value={record.endDate}
+            onChange={(e) => handleChange('endDate', e.target.value)}
+          />
+        </Box>
+        <Box as="td" py={2} px={2}>
+          <HStack>
+            <Input
+              size="sm"
+              type="number"
+              width="80px"
+              value={record.waterMeterStart}
+              onChange={(e) => handleChange('waterMeterStart', Number(e.target.value))}
+            />
+            <Text fontSize="xs">{t('common.arrow')}</Text>
+            <Input
+              size="sm"
+              type="number"
+              width="80px"
+              value={record.waterMeterEnd}
+              onChange={(e) => handleChange('waterMeterEnd', Number(e.target.value))}
+            />
+          </HStack>
+        </Box>
+        <Box as="td" py={2} px={2}>
           <Input
             size="sm"
             type="number"
-            width="80px"
-            value={record.waterMeterStart}
-            onChange={(e) => handleChange('waterMeterStart', Number(e.target.value))}
+            step="0.01"
+            width="70px"
+            value={record.waterUnitPrice}
+            onChange={(e) => handleChange('waterUnitPrice', Number(e.target.value))}
           />
-          <Text fontSize="xs">{t('common.arrow')}</Text>
+        </Box>
+        <Box as="td" py={2} px={2} fontWeight="medium" color="blue.600">
+          {computed.waterFeeTotal.toFixed(2)}
+        </Box>
+        <Box as="td" py={2} px={2}>
+          <HStack>
+            <Input
+              size="sm"
+              type="number"
+              width="80px"
+              value={record.electricMeterStart}
+              onChange={(e) => handleChange('electricMeterStart', Number(e.target.value))}
+            />
+            <Text fontSize="xs">{t('common.arrow')}</Text>
+            <Input
+              size="sm"
+              type="number"
+              width="80px"
+              value={record.electricMeterEnd}
+              onChange={(e) => handleChange('electricMeterEnd', Number(e.target.value))}
+            />
+          </HStack>
+        </Box>
+        <Box as="td" py={2} px={2}>
           <Input
             size="sm"
             type="number"
-            width="80px"
-            value={record.waterMeterEnd}
-            onChange={(e) => handleChange('waterMeterEnd', Number(e.target.value))}
+            step="0.01"
+            width="70px"
+            value={record.electricUnitPrice}
+            onChange={(e) => handleChange('electricUnitPrice', Number(e.target.value))}
           />
-        </HStack>
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <Input
-          size="sm"
-          type="number"
-          step="0.01"
-          width="70px"
-          value={record.waterUnitPrice}
-          onChange={(e) => handleChange('waterUnitPrice', Number(e.target.value))}
-        />
-      </Box>
-      <Box as="td" py={2} px={2} fontWeight="medium" color="blue.600">
-        {computed.waterFeeTotal.toFixed(2)}
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <HStack>
+        </Box>
+        <Box as="td" py={2} px={2} fontWeight="medium" color="orange.600">
+          {computed.electricFeeTotal.toFixed(2)}
+        </Box>
+        <Box as="td" py={2} px={2}>
           <Input
             size="sm"
             type="number"
-            width="80px"
-            value={record.electricMeterStart}
-            onChange={(e) => handleChange('electricMeterStart', Number(e.target.value))}
+            step="0.01"
+            width="70px"
+            value={record.extraFee}
+            onChange={(e) => handleChange('extraFee', Number(e.target.value))}
           />
-          <Text fontSize="xs">{t('common.arrow')}</Text>
-          <Input
-            size="sm"
-            type="number"
-            width="80px"
-            value={record.electricMeterEnd}
-            onChange={(e) => handleChange('electricMeterEnd', Number(e.target.value))}
-          />
-        </HStack>
+        </Box>
+        <Box as="td" py={2} px={2} fontWeight="bold" color="green.600">
+          {computed.allFeeTotal.toFixed(2)}
+        </Box>
+        <Box as="td" py={2} px={2}>
+          <HStack gap={1}>
+            <IconButton
+              aria-label={t('recordRow.deleteRecord')}
+              size="sm"
+              colorPalette="red"
+              variant="ghost"
+              onClick={onDelete}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+            </IconButton>
+            <Button
+              size="sm"
+              colorPalette="blue"
+              variant="ghost"
+              onClick={handlePreview}
+              title={t('recordRow.previewImage')}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </Button>
+          </HStack>
+        </Box>
       </Box>
-      <Box as="td" py={2} px={2}>
-        <Input
-          size="sm"
-          type="number"
-          step="0.01"
-          width="70px"
-          value={record.electricUnitPrice}
-          onChange={(e) => handleChange('electricUnitPrice', Number(e.target.value))}
-        />
-      </Box>
-      <Box as="td" py={2} px={2} fontWeight="medium" color="orange.600">
-        {computed.electricFeeTotal.toFixed(2)}
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <Input
-          size="sm"
-          type="number"
-          step="0.01"
-          width="70px"
-          value={record.extraFee}
-          onChange={(e) => handleChange('extraFee', Number(e.target.value))}
-        />
-      </Box>
-      <Box as="td" py={2} px={2} fontWeight="bold" color="green.600">
-        {computed.allFeeTotal.toFixed(2)}
-      </Box>
-      <Box as="td" py={2} px={2}>
-        <HStack gap={1}>
-          <IconButton
-            aria-label={t('recordRow.deleteRecord')}
-            size="sm"
-            colorPalette="red"
-            variant="ghost"
-            onClick={onDelete}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 6h18"></path>
-              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-            </svg>
-          </IconButton>
-          <Button
-            size="sm"
-            colorPalette="blue"
-            variant="ghost"
-            onClick={handlePreview}
-            title={t('recordRow.previewImage')}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </Button>
-        </HStack>
-      </Box>
-    </Box>
+      )}
 
     <Dialog.Root open={showImage} onOpenChange={(e) => setShowImage(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content bg="transparent" boxShadow="none">
+        <Dialog.Content bg="transparent" boxShadow="none" maxH="90vh" overflowY="auto">
           <Dialog.CloseTrigger asChild>
             <Box position="fixed" inset={0} />
           </Dialog.CloseTrigger>
-          <Box display="flex" justifyContent="center" alignItems="center" minH="100vh">
+          <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" p={4}>
             <Box ref={contentRef}>
               <RecordImage record={record} unitName={unitName} onDownload={handleDownloadImage} />
             </Box>

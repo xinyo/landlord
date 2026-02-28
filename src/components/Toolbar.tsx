@@ -45,7 +45,7 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
         }
 
         onDataLoad(loadedData);
-      } catch (error) {
+      } catch {
         alert(t('toolbar.loadError'));
       }
     };

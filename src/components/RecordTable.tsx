@@ -1,7 +1,9 @@
-import { Box, Button, Table } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Button, Table, NativeSelect } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { RecordRow } from './RecordRow';
+import { useMobile } from '../hooks/useMobile';
 import type { Record, Settings } from '../types';
 
 interface RecordTableProps {
@@ -13,6 +15,14 @@ interface RecordTableProps {
 
 export function RecordTable({ records, unitName, onRecordsChange, settings }: RecordTableProps) {
   const { t } = useTranslation();
+  const isMobile = useMobile();
+  const [selectedRecordId, setSelectedRecordId] = useState<string>('');
+
+  // Derive effective selected record - fall back to first record if selection is invalid
+  const effectiveSelectedRecordId = records.length > 0
+    ? (records.find(r => r.id === selectedRecordId) ? selectedRecordId : records[0].id)
+    : '';
+
   const handleAddRecord = () => {
     const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
@@ -76,6 +86,24 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
 
   return (
     <Box overflowX="auto">
+      {records.length > 1 && isMobile && (
+        <Box mb={4}>
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              value={selectedRecordId}
+              onChange={(e) => setSelectedRecordId(e.target.value)}
+            >
+              {records.map((record) => (
+                <option key={record.id} value={record.id}>
+                  {record.startDate} - {record.endDate}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
+        </Box>
+      )}
+
       <Table.Root size="sm">
         <Table.Header>
           <Table.Row bg="gray.200">
@@ -93,13 +121,14 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {records.map((record) => (
+          {(isMobile && records.length > 1 ? records.filter(r => r.id === effectiveSelectedRecordId) : records).map((record) => (
             <RecordRow
               key={record.id}
               record={record}
               unitName={unitName}
               onChange={handleUpdateRecord}
               onDelete={() => handleDeleteRecord(record.id)}
+              isMobile={isMobile}
             />
           ))}
         </Table.Body>
