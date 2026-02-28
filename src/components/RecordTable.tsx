@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Table, NativeSelect } from '@chakra-ui/react';
+import { Box, Button, Table, NativeSelect, HStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { RecordRow } from './RecordRow';
@@ -72,6 +72,9 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
     };
 
     onRecordsChange([...records, newRecord]);
+    if (isMobile) {
+      setSelectedRecordId(newRecord.id);
+    }
   };
 
   const handleUpdateRecord = (updatedRecord: Record) => {
@@ -86,23 +89,7 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
 
   return (
     <Box overflowX="auto">
-      {records.length > 1 && isMobile && (
-        <Box mb={4}>
-          <NativeSelect.Root>
-            <NativeSelect.Field
-              value={selectedRecordId}
-              onChange={(e) => setSelectedRecordId(e.target.value)}
-            >
-              {records.map((record) => (
-                <option key={record.id} value={record.id}>
-                  {record.startDate} - {record.endDate}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
-        </Box>
-      )}
+      {/* Selector moved to bottom on mobile alongside Add button */}
 
       <Table.Root size="sm">
         {!isMobile && (
@@ -140,9 +127,31 @@ export function RecordTable({ records, unitName, onRecordsChange, settings }: Re
           {t('recordTable.noRecords')}
         </Box>
       )}
-      <Button mt={4} onClick={handleAddRecord} size="sm" colorPalette="green">
-        {t('recordTable.addRecord')}
-      </Button>
+
+      
+        <HStack mb={4} w="full" justify="space-between">
+          {isMobile && records.length > 1 && (
+            <Box flex={1}>
+              <NativeSelect.Root>
+                <NativeSelect.Field
+                  value={selectedRecordId}
+                  onChange={(e) => setSelectedRecordId(e.target.value)}
+                >
+                  {records.map((record) => (
+                    <option key={record.id} value={record.id}>
+                      {record.startDate} - {record.endDate}
+                    </option>
+                  ))}
+                </NativeSelect.Field>
+                <NativeSelect.Indicator />
+              </NativeSelect.Root>
+            </Box>
+          )}
+          
+          <Button onClick={handleAddRecord} colorPalette="green">
+            {t('recordTable.addRecord')}
+          </Button>
+        </HStack>
     </Box>
   );
 }
