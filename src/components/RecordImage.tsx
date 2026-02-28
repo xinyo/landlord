@@ -1,5 +1,6 @@
 import { Box, Text, VStack, HStack, Flex, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { useMobile } from '../hooks/useMobile';
 import type { Record } from '../types';
 
 interface RecordImageProps {
@@ -10,6 +11,7 @@ interface RecordImageProps {
 
 export function RecordImage({ record, unitName, onDownload }: RecordImageProps) {
   const { t, i18n } = useTranslation();
+  const isMobile = useMobile();
 
   const formattedDate = new Date().toLocaleDateString(i18n.language === 'zh' ? 'zh-CN' : 'en-US');
 
@@ -28,7 +30,7 @@ export function RecordImage({ record, unitName, onDownload }: RecordImageProps) 
       borderRadius="lg"
       boxShadow="xl"
       maxW="800px"
-      minW="40vw"
+      minW={isMobile ? '80vw' : '40vw'}
       width="100%"
       mx="auto"
       style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
