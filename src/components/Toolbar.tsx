@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { HStack, Button, Input } from '@chakra-ui/react';
+import { useMobile } from '../hooks/useMobile';
 import { useTranslation } from 'react-i18next';
 import { Save, Upload } from 'lucide-react';
 import type { AppData } from '../types';
@@ -12,6 +13,7 @@ interface ToolbarProps {
 export function Toolbar({ data, onDataLoad }: ToolbarProps) {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isMobile = useMobile();
 
   const handleSave = () => {
     const json = JSON.stringify(data, null, 2);
@@ -55,12 +57,12 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
   };
 
   return (
-    <HStack gap={4}>
-      <Button colorPalette="green" onClick={handleSave}>
+    <HStack gap={2}>
+      <Button size={isMobile ? 'sm' : undefined} colorPalette="green" onClick={handleSave}>
         <Save size={16} />
         {t('toolbar.save')}
       </Button>
-      <Button variant="outline" onClick={handleLoadClick}>
+      <Button size={isMobile ? 'sm' : undefined} variant="outline" onClick={handleLoadClick}>
         <Upload size={16} />
         {t('toolbar.load')}
       </Button>
