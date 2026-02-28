@@ -33,7 +33,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
           <Dialog.Header>
             <Dialog.Title>{t('settings.title')}</Dialog.Title>
           </Dialog.Header>
-          <Dialog.Body>
+          <Dialog.Body overflowY="auto" maxH="80vh">
             <VStack gap={4} align="stretch">
               <Field.Root>
                 <Field.Label>{t('settings.defaultWaterUnitPrice')}</Field.Label>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChakraProvider, Box, Heading, Container, HStack, defaultSystem, Button } from '@chakra-ui/react';
+import { useMobile } from './hooks/useMobile';
 import { useTranslation } from 'react-i18next';
 import { Settings2, Languages } from 'lucide-react';
 import { UnitList, Toolbar, SettingsDialog, Footer } from './components';
@@ -19,6 +20,7 @@ const initialData: AppData = {
 
 function App() {
   const { t, i18n } = useTranslation();
+  const isMobile = useMobile();
   const [data, setData] = useState<AppData>(initialData);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -62,28 +64,59 @@ function App() {
       <Box minH="100vh" bg="gray.50" display="flex" flexDirection="column">
         <Box flex="1" py={8}>
           <Container maxW="container.xl">
-          <HStack justify="space-between" mb={2}>
-            <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
-            <HStack gap={4}>
-              <Toolbar data={data} onDataLoad={handleDataLoad} />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleLanguage}
-              >
-                <Languages size={16} />
-                {i18n.language === 'en' ? t('language.zh') : t('language.en')}
-              </Button>
-              <Button
-                aria-label={t('settings.title')}
-                variant="outline"
-                onClick={openSettings}
-              >
-                <Settings2 size={16} />
-                {t('settings.title')}
-              </Button>
+          {isMobile ? (
+            <Box mb={8}>
+              <HStack justify="center" mb={2}>
+                <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
+              </HStack>
+              <HStack justify="space-between" gap={2}>
+                <Toolbar data={data} onDataLoad={handleDataLoad} />
+                <HStack gap={2}>
+                  <Button
+                    size={isMobile ? 'sm' : undefined}
+                    variant="outline"
+                    onClick={toggleLanguage}
+                  >
+                    <Languages size={16} />
+                    {i18n.language === 'en' ? t('language.zh') : t('language.en')}
+                  </Button>
+                  <Button
+                    size={isMobile ? 'sm' : undefined}
+                    aria-label={t('settings.title')}
+                    variant="outline"
+                    onClick={openSettings}
+                  >
+                    <Settings2 size={16} />
+                    {t('settings.title')}
+                  </Button>
+                </HStack>
+              </HStack>
+            </Box>
+          ) : (
+            <HStack justify="space-between" mb={8}>
+              <Heading size="2xl" color="gray.700">{t('app.title')}</Heading>
+              <HStack gap={2}>
+                <Toolbar data={data} onDataLoad={handleDataLoad} />
+                <Button
+                  size={isMobile ? 'sm' : undefined}
+                  variant="outline"
+                  onClick={toggleLanguage}
+                >
+                  <Languages size={16} />
+                  {i18n.language === 'en' ? t('language.zh') : t('language.en')}
+                </Button>
+                <Button
+                  size={isMobile ? 'sm' : undefined}
+                  aria-label={t('settings.title')}
+                  variant="outline"
+                  onClick={openSettings}
+                >
+                  <Settings2 size={16} />
+                  {t('settings.title')}
+                </Button>
+              </HStack>
             </HStack>
-          </HStack>
+          )}
           
             <UnitList units={data.units} settings={data.settings} onUnitsChange={handleUnitsChange} />
           </Container>
