@@ -5,7 +5,8 @@
   "toolbar": {
     "save": "保存",
     "load": "加载",
-    "loadError": "加载文件失败，请确保是有效的JSON文件。"
+    "loadError": "加载文件失败，请确保是有效的JSON文件。",
+    "wechatSaveHint": "微信内可能限制直接下载，请在系统浏览器中打开后保存 JSON 文件。"
   },
   "unitList": {
     "placeholder": "输入单元名称...",
@@ -34,7 +35,8 @@
     "deleteRecord": "删除记录",
     "downloadImage": "下载图片",
     "previewImage": "预览图片",
-    "meterUsage": "用量"
+    "meterUsage": "用量",
+    "wechatSaveHint": "在微信里请长按打开的图片进行保存。"
   },
   "recordImage": {
     "generatedOn": "生成于 {{date}}"

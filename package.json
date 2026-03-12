@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:wechat": "tsc -b && vite build --mode wechat",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:wechat": "vite preview --outDir dist-wechat",
     "test": "vitest run"
   },
   "dependencies": {

@@ -4,6 +4,7 @@ import { useMobile } from '../hooks/useMobile';
 import { useTranslation } from 'react-i18next';
 import { Save, Upload } from 'lucide-react';
 import type { AppData } from '../types';
+import { isWechatRuntime } from '../runtime/wechat';
 
 interface ToolbarProps {
   data: AppData;
@@ -19,9 +20,18 @@ export function Toolbar({ data, onDataLoad }: ToolbarProps) {
     const json = JSON.stringify(data, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
+    const filename = `landlord-data-${new Date().toISOString().split('T')[0]}.json`;
+
+    if (isWechatRuntime()) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      alert(t('toolbar.wechatSaveHint'));
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return;
+    }
+
     const a = document.createElement('a');
     a.href = url;
-    a.download = `landlord-data-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

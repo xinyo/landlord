@@ -5,7 +5,8 @@
   "toolbar": {
     "save": "Save",
     "load": "Load",
-    "loadError": "Failed to load file. Please make sure it is a valid JSON file."
+    "loadError": "Failed to load file. Please make sure it is a valid JSON file.",
+    "wechatSaveHint": "WeChat may block direct file download. Open in your system browser to save this JSON file."
   },
   "unitList": {
     "placeholder": "Enter unit name...",
@@ -34,7 +35,8 @@
     "deleteRecord": "Delete record",
     "downloadImage": "Download as Image",
     "previewImage": "Preview Image",
-    "meterUsage": "Usage"
+    "meterUsage": "Usage",
+    "wechatSaveHint": "Long-press the opened image to save it in WeChat."
   },
   "recordImage": {
     "generatedOn": "Generated on {{date}}"
