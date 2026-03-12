@@ -21,6 +21,7 @@ export interface Settings {
   defaultWaterUnitPrice: number;
   defaultElectricUnitPrice: number;
   defaultExtraFee: number;
+  defaultDatePeriod: DatePeriod;
 }
 
 export interface AppData {
@@ -33,3 +34,5 @@ export interface ComputedValues {
   electricFeeTotal: number;
   allFeeTotal: number;
 }
+
+export type DatePeriod = 'monthly' | 'fortnightly' | 'weekly';

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Input,
   VStack,
   Field,
   Dialog,
+  NativeSelect,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import type { Settings } from '../types';
@@ -19,6 +20,10 @@ interface SettingsDialogProps {
 export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDialogProps) {
   const { t } = useTranslation();
   const [tempSettings, setTempSettings] = useState<Settings>(settings);
+
+  useEffect(() => {
+    setTempSettings(settings);
+  }, [settings, isOpen]);
 
   const handleSave = () => {
     onSave(tempSettings);
@@ -61,6 +66,25 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
                   value={tempSettings.defaultExtraFee}
                   onChange={(e) => setTempSettings({ ...tempSettings, defaultExtraFee: Number(e.target.value) })}
                 />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>{t('settings.defaultDatePeriod')}</Field.Label>
+                <NativeSelect.Root>
+                  <NativeSelect.Field
+                    value={tempSettings.defaultDatePeriod}
+                    onChange={(e) =>
+                      setTempSettings({
+                        ...tempSettings,
+                        defaultDatePeriod: e.target.value as Settings['defaultDatePeriod'],
+                      })
+                    }
+                  >
+                    <option value="monthly">{t('settings.datePeriod.monthly')}</option>
+                    <option value="fortnightly">{t('settings.datePeriod.fortnightly')}</option>
+                    <option value="weekly">{t('settings.datePeriod.weekly')}</option>
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
               </Field.Root>
             </VStack>
           </Dialog.Body>

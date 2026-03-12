@@ -11,6 +11,7 @@ const defaultSettings: Settings = {
   defaultWaterUnitPrice: 3.5,
   defaultElectricUnitPrice: 0.6,
   defaultExtraFee: 10,
+  defaultDatePeriod: 'monthly',
 };
 
 const initialData: AppData = {

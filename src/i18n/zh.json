@@ -45,7 +45,13 @@
     "title": "设置",
     "defaultWaterUnitPrice": "默认水费单价",
     "defaultElectricUnitPrice": "默认电费单价",
-    "defaultExtraFee": "默认垃圾管理费"
+    "defaultExtraFee": "默认垃圾管理费",
+    "defaultDatePeriod": "默认日期周期",
+    "datePeriod": {
+      "monthly": "每月",
+      "fortnightly": "每两周",
+      "weekly": "每周"
+    }
   },
   "common": {
     "arrow": "→",
@@ -58,7 +64,7 @@
   }
   ,
   "footer": {
-    "credit": "© {{year}} 房屋水电 — 由 MiniMax，Claude Code 和 ClawdBot 用❤️制作",
+    "credit": "© {{year}} 房屋水电 — 由 MiniMax，Codex, Claude Code 和 ClawdBot 用❤️制作",
     "github": "GitHub"
   }
 }
