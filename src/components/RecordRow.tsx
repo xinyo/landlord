@@ -357,7 +357,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
     <Dialog.Root open={showImage} onOpenChange={(e) => setShowImage(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content bg="transparent" boxShadow="none" maxH="90vh" overflowY="auto">
+        <Dialog.Content bg="transparent" boxShadow="none" maxH="90vh">
           <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" p={4}>
             <Box ref={contentRef}>
               <RecordImage record={record} unitName={unitName} onDownload={handleDownloadImage} />
