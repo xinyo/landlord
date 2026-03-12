@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
+import { ImageDown } from 'lucide-react';
 import type { Record, ComputedValues } from '../types';
 import { RecordImage } from './RecordImage';
 import { isWechatRuntime } from '../runtime/wechat';
@@ -220,10 +221,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                   onClick={handlePreview}
                   title={t('recordRow.previewImage')}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
+                  <ImageDown size={16} />
                 </Button>
               </HStack>
             </VStack>
@@ -349,10 +347,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
               onClick={handlePreview}
               title={t('recordRow.previewImage')}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+              <ImageDown size={16} />
             </Button>
           </HStack>
         </Box>
