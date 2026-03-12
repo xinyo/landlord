@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
+import { ImageDown } from 'lucide-react';
 import type { Record, ComputedValues } from '../types';
 import { RecordImage } from './RecordImage';
 import { isWechatRuntime } from '../runtime/wechat';
@@ -220,10 +221,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                   onClick={handlePreview}
                   title={t('recordRow.previewImage')}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
+                  <ImageDown size={16} />
                 </Button>
               </HStack>
             </VStack>
@@ -349,10 +347,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
               onClick={handlePreview}
               title={t('recordRow.previewImage')}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+              <ImageDown size={16} />
             </Button>
           </HStack>
         </Box>
@@ -362,7 +357,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
     <Dialog.Root open={showImage} onOpenChange={(e) => setShowImage(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content bg="transparent" boxShadow="none" maxH="90vh" overflowY="auto">
+        <Dialog.Content bg="transparent" boxShadow="none" maxH="90vh">
           <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" p={4}>
             <Box ref={contentRef}>
               <RecordImage record={record} unitName={unitName} onDownload={handleDownloadImage} />
