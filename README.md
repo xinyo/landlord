@@ -150,10 +150,28 @@ npm run dev
 npm run build
 ```
 
+### Build for WeChat/Weixin Mini Program WebView
+
+```bash
+npm run build:wechat
+```
+
+This generates a separate build in `dist-wechat/` so it does not overwrite the default web build in `dist/`.
+
+In WeChat runtime, export/download actions use compatibility fallbacks:
+- JSON export opens in a new page and prompts users to save from the system browser.
+- Image export opens the image and prompts users to long-press to save.
+
 ### Preview the production build
 
 ```bash
 npm run preview
+```
+
+### Preview the WeChat build
+
+```bash
+npm run preview:wechat
 ```
 
 ### Run tests

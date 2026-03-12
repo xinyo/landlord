@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import type { Record, ComputedValues } from '../types';
 import { RecordImage } from './RecordImage';
+import { isWechatRuntime } from '../runtime/wechat';
 
 interface RecordRowProps {
   record: Record;
@@ -59,9 +60,17 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
           backgroundColor: '#ffffff',
           scale: 2,
         });
+        const imageUrl = canvas.toDataURL('image/png');
+
+        if (isWechatRuntime()) {
+          window.open(imageUrl, '_blank', 'noopener,noreferrer');
+          alert(t('recordRow.wechatSaveHint'));
+          return;
+        }
+
         const link = document.createElement('a');
         link.download = `${unitName}_${record.startDate}_${record.endDate}_fees.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.href = imageUrl;
         link.click();
       } catch (error) {
         console.error('Failed to generate image:', error);
