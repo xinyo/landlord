@@ -30,6 +30,7 @@ const defaultSettings: Settings = {
   defaultWaterUnitPrice: 3.5,
   defaultElectricUnitPrice: 0.6,
   defaultExtraFee: 10,
+  defaultDatePeriod: 'monthly',
 };
 
 describe('SettingsDialog', () => {
@@ -78,6 +79,7 @@ describe('SettingsDialog', () => {
       defaultWaterUnitPrice: 5,
       defaultElectricUnitPrice: 0.6,
       defaultExtraFee: 10,
+      defaultDatePeriod: 'monthly',
     });
   });
 
@@ -142,6 +144,24 @@ describe('SettingsDialog', () => {
     expect(onSave).toHaveBeenCalledWith(
       expect.objectContaining({
         defaultExtraFee: 20,
+      })
+    );
+  });
+
+  it('should update default date period', () => {
+    const onSave = vi.fn();
+    const onClose = vi.fn();
+    renderSettingsDialog(true, defaultSettings, onSave, onClose);
+
+    const periodSelect = screen.getByRole('combobox');
+    fireEvent.change(periodSelect, { target: { value: 'weekly' } });
+
+    const saveButton = screen.getByRole('button', { name: /save/i });
+    fireEvent.click(saveButton);
+
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultDatePeriod: 'weekly',
       })
     );
   });

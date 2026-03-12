@@ -45,7 +45,13 @@
     "title": "Settings",
     "defaultWaterUnitPrice": "Default Water Unit Price",
     "defaultElectricUnitPrice": "Default Electric Unit Price",
-    "defaultExtraFee": "Default Extra Fee"
+    "defaultExtraFee": "Default Extra Fee",
+    "defaultDatePeriod": "Default Date Period",
+    "datePeriod": {
+      "monthly": "Monthly",
+      "fortnightly": "Fortnightly",
+      "weekly": "Weekly"
+    }
   },
   "common": {
     "arrow": "→",
@@ -58,7 +64,7 @@
   }
   ,
   "footer": {
-    "credit": "© {{year}} Rental Utilities — made with ❤️ by MiniMax, Claude Code and ClawdBot",
+    "credit": "© {{year}} Rental Utilities — made with ❤️ by MiniMax, Codex, Claude Code and ClawdBot",
     "github": "GitHub"
   }
 }

@@ -16,6 +16,7 @@ const defaultSettings: Settings = {
   defaultWaterUnitPrice: 3.5,
   defaultElectricUnitPrice: 0.6,
   defaultExtraFee: 10,
+  defaultDatePeriod: 'monthly',
 };
 
 const renderRecordTable = (
@@ -110,6 +111,85 @@ describe('RecordTable', () => {
     expect(newRecords[1].extraFee).toBe(30);
     expect(newRecords[1].waterMeterStart).toBe(150);
     expect(newRecords[1].electricMeterStart).toBe(700);
+  });
+
+  it('should create monthly record for first row by default', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-03-12T10:00:00'));
+
+    const onRecordsChange = vi.fn();
+    renderRecordTable([], 'Unit A', onRecordsChange, defaultSettings);
+
+    fireEvent.click(screen.getByRole('button', { name: /add record/i }));
+
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[0].startDate).toBe('2026-03-01');
+    expect(newRecords[0].endDate).toBe('2026-03-31');
+
+    vi.useRealTimers();
+  });
+
+  it('should create weekly record for first row when configured', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-03-12T10:00:00'));
+
+    const onRecordsChange = vi.fn();
+    renderRecordTable([], 'Unit A', onRecordsChange, {
+      ...defaultSettings,
+      defaultDatePeriod: 'weekly',
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /add record/i }));
+
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[0].startDate).toBe('2026-03-12');
+    expect(newRecords[0].endDate).toBe('2026-03-18');
+
+    vi.useRealTimers();
+  });
+
+  it('should create fortnightly record for first row when configured', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-03-12T10:00:00'));
+
+    const onRecordsChange = vi.fn();
+    renderRecordTable([], 'Unit A', onRecordsChange, {
+      ...defaultSettings,
+      defaultDatePeriod: 'fortnightly',
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /add record/i }));
+
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[0].startDate).toBe('2026-03-12');
+    expect(newRecords[0].endDate).toBe('2026-03-25');
+
+    vi.useRealTimers();
+  });
+
+  it('should follow previous record period when adding next row', () => {
+    const existingRecords: Record[] = [
+      {
+        id: '1',
+        startDate: '2026-03-01',
+        endDate: '2026-03-07',
+        waterMeterStart: 0,
+        waterMeterEnd: 100,
+        waterUnitPrice: 3.5,
+        electricMeterStart: 0,
+        electricMeterEnd: 200,
+        electricUnitPrice: 0.6,
+        extraFee: 10,
+      },
+    ];
+    const onRecordsChange = vi.fn();
+    renderRecordTable(existingRecords, 'Unit A', onRecordsChange, defaultSettings);
+
+    fireEvent.click(screen.getByRole('button', { name: /add record/i }));
+
+    const newRecords = onRecordsChange.mock.calls[0][0];
+    expect(newRecords[1].startDate).toBe('2026-03-08');
+    expect(newRecords[1].endDate).toBe('2026-03-14');
   });
 
   it('should select newly added record on mobile', async () => {
