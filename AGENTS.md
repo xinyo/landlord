@@ -1,6 +1,7 @@
 ## Engineering Principles
 
-- After setup TODO/plan, always ask confirmation before execute plan.
+- When the #plan command is triggered, ask for confirmation before executing the plan.
+- Every PR must include a changes summary in the description.
 - Branch names and PR titles must always follow semantic conventions.
 - Always run `npm test` after modifying JavaScript/Typescript files.
 - Prefer `pnpm` when installing dependencies.

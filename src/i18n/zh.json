@@ -64,7 +64,7 @@
   }
   ,
   "footer": {
-    "credit": "© {{year}} 房屋水电 — 由 MiniMax，Codex, Claude Code 和 ClawdBot 用❤️制作",
+    "credit": "© {{year}} 房屋水电 — 由 MiniMax，Codex，Claude Code 和 ClawdBot 用❤️制作",
     "github": "GitHub"
   }
 }
