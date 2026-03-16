@@ -139,7 +139,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                   <HStack>
                     <NumberInput.Root
                       size="sm"
-                      step="0.01"
+                      step={0.01}
                       value={record.waterUnitPrice.toString()}
                       onValueChange={(e) => handleChange('waterUnitPrice', Number(e.value))}
                     >
@@ -175,7 +175,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                   <HStack>
                     <NumberInput.Root
                       size="sm"
-                      step="0.01"
+                      step={0.01}
                       value={record.electricUnitPrice.toString()}
                       onValueChange={(e) => handleChange('electricUnitPrice', Number(e.value))}
                     >
@@ -193,7 +193,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                 <HStack>
                   <NumberInput.Root
                     size="sm"
-                    step="0.01"
+                    step={0.01}
                     value={record.extraFee.toString()}
                     onValueChange={(e) => handleChange('extraFee', Number(e.value))}
                   >
@@ -277,7 +277,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         <Box as="td" py={2} px={2}>
           <NumberInput.Root
             size="sm"
-            step="0.01"
+            step={0.01}
             width="70px"
             value={record.waterUnitPrice.toString()}
             onValueChange={(e) => handleChange('waterUnitPrice', Number(e.value))}
@@ -312,7 +312,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         <Box as="td" py={2} px={2}>
           <NumberInput.Root
             size="sm"
-            step="0.01"
+            step={0.01}
             width="70px"
             value={record.electricUnitPrice.toString()}
             onValueChange={(e) => handleChange('electricUnitPrice', Number(e.value))}
@@ -326,7 +326,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         <Box as="td" py={2} px={2}>
           <NumberInput.Root
             size="sm"
-            step="0.01"
+            step={0.01}
             width="70px"
             value={record.extraFee.toString()}
             onValueChange={(e) => handleChange('extraFee', Number(e.value))}

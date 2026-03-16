@@ -43,7 +43,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
               <Field.Root>
                 <Field.Label>{t('settings.defaultWaterUnitPrice')}</Field.Label>
                 <NumberInput.Root
-                  step="0.01"
+                  step={0.01}
                   value={tempSettings.defaultWaterUnitPrice.toString()}
                   onValueChange={(e) => setTempSettings({ ...tempSettings, defaultWaterUnitPrice: Number(e.value) })}
                 >
@@ -53,7 +53,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
               <Field.Root>
                 <Field.Label>{t('settings.defaultElectricUnitPrice')}</Field.Label>
                 <NumberInput.Root
-                  step="0.01"
+                  step={0.01}
                   value={tempSettings.defaultElectricUnitPrice.toString()}
                   onValueChange={(e) => setTempSettings({ ...tempSettings, defaultElectricUnitPrice: Number(e.value) })}
                 >
@@ -63,7 +63,7 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
               <Field.Root>
                 <Field.Label>{t('settings.defaultExtraFee')}</Field.Label>
                 <NumberInput.Root
-                  step="0.01"
+                  step={0.01}
                   value={tempSettings.defaultExtraFee.toString()}
                   onValueChange={(e) => setTempSettings({ ...tempSettings, defaultExtraFee: Number(e.value) })}
                 >
