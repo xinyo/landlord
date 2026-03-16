@@ -3,6 +3,7 @@ import {
   HStack,
   VStack,
   Input,
+  NumberInput,
   Text,
   IconButton,
   Box,
@@ -66,6 +67,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         if (isWechatRuntime()) {
           window.open(imageUrl, '_blank', 'noopener,noreferrer');
           alert(t('recordRow.wechatSaveHint'));
+          setShowImage(false);
           return;
         }
 
@@ -73,6 +75,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         link.download = `${unitName}_${record.startDate}_${record.endDate}_fees.png`;
         link.href = imageUrl;
         link.click();
+        setShowImage(false);
       } catch (error) {
         console.error('Failed to generate image:', error);
       }
@@ -117,30 +120,31 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                 <Text fontWeight="bold" fontSize="sm" mb={1} color="blue.600">{t('recordTable.waterMeter')} ({computed.waterFeeTotal.toFixed(2)})</Text>
                 <VStack gap={1}>
                   <HStack>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      placeholder={t('recordTable.waterMeter')}
-                      value={record.waterMeterStart}
-                      onChange={(e) => handleChange('waterMeterStart', Number(e.target.value))}
-                    />
+                      value={record.waterMeterStart.toString()}
+                      onValueChange={(e) => handleChange('waterMeterStart', Number(e.value))}
+                    >
+                      <NumberInput.Input placeholder={t('recordTable.waterMeter')} />
+                    </NumberInput.Root>
                     <Text fontSize="xs">{t('common.arrow')}</Text>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      value={record.waterMeterEnd}
-                      onChange={(e) => handleChange('waterMeterEnd', Number(e.target.value))}
-                    />
+                      value={record.waterMeterEnd.toString()}
+                      onValueChange={(e) => handleChange('waterMeterEnd', Number(e.value))}
+                    >
+                      <NumberInput.Input />
+                    </NumberInput.Root>
                   </HStack>
                   <HStack>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      step="0.01"
-                      placeholder={t('recordTable.waterPrice')}
-                      value={record.waterUnitPrice}
-                      onChange={(e) => handleChange('waterUnitPrice', Number(e.target.value))}
-                    />
+                      step={0.1}
+                      value={record.waterUnitPrice.toString()}
+                      onValueChange={(e) => handleChange('waterUnitPrice', Number(e.value))}
+                    >
+                      <NumberInput.Input placeholder={t('recordTable.waterPrice')} />
+                    </NumberInput.Root>
                     <Text fontSize="sm" color="gray.500">=</Text>
                     <Text fontSize="sm" fontWeight="medium" color="blue.600">{computed.waterFeeTotal.toFixed(2)}</Text>
                   </HStack>
@@ -152,30 +156,31 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
                 <Text fontWeight="bold" fontSize="sm" mb={1} color="orange.600">{t('recordTable.electricMeter')} ({computed.electricFeeTotal.toFixed(2)})</Text>
                 <VStack gap={1}>
                   <HStack>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      placeholder={t('recordTable.electricMeter')}
-                      value={record.electricMeterStart}
-                      onChange={(e) => handleChange('electricMeterStart', Number(e.target.value))}
-                    />
+                      value={record.electricMeterStart.toString()}
+                      onValueChange={(e) => handleChange('electricMeterStart', Number(e.value))}
+                    >
+                      <NumberInput.Input placeholder={t('recordTable.electricMeter')} />
+                    </NumberInput.Root>
                     <Text fontSize="xs">{t('common.arrow')}</Text>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      value={record.electricMeterEnd}
-                      onChange={(e) => handleChange('electricMeterEnd', Number(e.target.value))}
-                    />
+                      value={record.electricMeterEnd.toString()}
+                      onValueChange={(e) => handleChange('electricMeterEnd', Number(e.value))}
+                    >
+                      <NumberInput.Input />
+                    </NumberInput.Root>
                   </HStack>
                   <HStack>
-                    <Input
+                    <NumberInput.Root
                       size="sm"
-                      type="number"
-                      step="0.01"
-                      placeholder={t('recordTable.electricPrice')}
-                      value={record.electricUnitPrice}
-                      onChange={(e) => handleChange('electricUnitPrice', Number(e.target.value))}
-                    />
+                      step={0.1}
+                      value={record.electricUnitPrice.toString()}
+                      onValueChange={(e) => handleChange('electricUnitPrice', Number(e.value))}
+                    >
+                      <NumberInput.Input placeholder={t('recordTable.electricPrice')} />
+                    </NumberInput.Root>
                     <Text fontSize="sm" color="gray.500">=</Text>
                     <Text fontSize="sm" fontWeight="medium" color="orange.600">{computed.electricFeeTotal.toFixed(2)}</Text>
                   </HStack>
@@ -186,14 +191,14 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
               <Box>
                 <Text fontWeight="bold" fontSize="sm" mb={1}>{t('recordTable.extraFee')} & {t('recordTable.total')}</Text>
                 <HStack>
-                  <Input
+                  <NumberInput.Root
                     size="sm"
-                    type="number"
-                    step="0.01"
-                    placeholder={t('recordTable.extraFee')}
-                    value={record.extraFee}
-                    onChange={(e) => handleChange('extraFee', Number(e.target.value))}
-                  />
+                    step={1}
+                    value={record.extraFee.toString()}
+                    onValueChange={(e) => handleChange('extraFee', Number(e.value))}
+                  >
+                    <NumberInput.Input placeholder={t('recordTable.extraFee')} />
+                  </NumberInput.Root>
                   <Text fontSize="sm" color="gray.500">=</Text>
                   <Text fontSize="lg" fontWeight="bold" color="green.600">{computed.allFeeTotal.toFixed(2)}</Text>
                 </HStack>
@@ -250,77 +255,84 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
         </Box>
         <Box as="td" py={2} px={2}>
           <HStack>
-            <Input
+            <NumberInput.Root
               size="sm"
-              type="number"
               width="80px"
-              value={record.waterMeterStart}
-              onChange={(e) => handleChange('waterMeterStart', Number(e.target.value))}
-            />
+              value={record.waterMeterStart.toString()}
+              onValueChange={(e) => handleChange('waterMeterStart', Number(e.value))}
+            >
+              <NumberInput.Input />
+            </NumberInput.Root>
             <Text fontSize="xs">{t('common.arrow')}</Text>
-            <Input
+            <NumberInput.Root
               size="sm"
-              type="number"
               width="80px"
-              value={record.waterMeterEnd}
-              onChange={(e) => handleChange('waterMeterEnd', Number(e.target.value))}
-            />
+              value={record.waterMeterEnd.toString()}
+              onValueChange={(e) => handleChange('waterMeterEnd', Number(e.value))}
+            >
+              <NumberInput.Input />
+            </NumberInput.Root>
           </HStack>
         </Box>
         <Box as="td" py={2} px={2}>
-          <Input
+          <NumberInput.Root
             size="sm"
-            type="number"
-            step="0.01"
+            step={0.1}
             width="70px"
-            value={record.waterUnitPrice}
-            onChange={(e) => handleChange('waterUnitPrice', Number(e.target.value))}
-          />
+            value={record.waterUnitPrice.toString()}
+            onValueChange={(e) => handleChange('waterUnitPrice', Number(e.value))}
+          >
+            <NumberInput.Input />
+          </NumberInput.Root>
         </Box>
         <Box as="td" py={2} px={2} fontWeight="medium" color="blue.600">
           {computed.waterFeeTotal.toFixed(2)}
         </Box>
         <Box as="td" py={2} px={2}>
           <HStack>
-            <Input
+            <NumberInput.Root
               size="sm"
-              type="number"
               width="80px"
-              value={record.electricMeterStart}
-              onChange={(e) => handleChange('electricMeterStart', Number(e.target.value))}
-            />
+              value={record.electricMeterStart.toString()}
+              onValueChange={(e) => handleChange('electricMeterStart', Number(e.value))}
+            >
+              <NumberInput.Input />
+            </NumberInput.Root>
             <Text fontSize="xs">{t('common.arrow')}</Text>
-            <Input
+            <NumberInput.Root
               size="sm"
-              type="number"
               width="80px"
-              value={record.electricMeterEnd}
-              onChange={(e) => handleChange('electricMeterEnd', Number(e.target.value))}
-            />
+              value={record.electricMeterEnd.toString()}
+              onValueChange={(e) => handleChange('electricMeterEnd', Number(e.value))}
+            >
+              <NumberInput.Input />
+            </NumberInput.Root>
           </HStack>
         </Box>
         <Box as="td" py={2} px={2}>
-          <Input
+          <NumberInput.Root
             size="sm"
-            type="number"
-            step="0.01"
+            step={0.1}
             width="70px"
-            value={record.electricUnitPrice}
-            onChange={(e) => handleChange('electricUnitPrice', Number(e.target.value))}
-          />
+            value={record.electricUnitPrice.toString()}
+            onValueChange={(e) => handleChange('electricUnitPrice', Number(e.value))}
+          >
+            <NumberInput.Input />
+          </NumberInput.Root>
         </Box>
         <Box as="td" py={2} px={2} fontWeight="medium" color="orange.600">
           {computed.electricFeeTotal.toFixed(2)}
         </Box>
         <Box as="td" py={2} px={2}>
-          <Input
+          <NumberInput.Root
             size="sm"
-            type="number"
-            step="0.01"
+            step={1}
             width="70px"
-            value={record.extraFee}
-            onChange={(e) => handleChange('extraFee', Number(e.target.value))}
-          />
+            value={record.extraFee.toString()}
+            onValueChange={(e) => handleChange('extraFee', Number(e.value))}
+          >
+            <NumberInput.Input />
+          </NumberInput.Root>
         </Box>
         <Box as="td" py={2} px={2} fontWeight="bold" color="green.600">
           {computed.allFeeTotal.toFixed(2)}
