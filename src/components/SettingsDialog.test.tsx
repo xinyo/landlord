@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { SettingsDialog } from '../components/SettingsDialog';
 import { I18nextProvider } from 'react-i18next';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
@@ -64,13 +65,15 @@ describe('SettingsDialog', () => {
     expect(extraFeeInput).toBeInTheDocument();
   });
 
-  it('should call onSave with new values when save button is clicked', () => {
+  it('should call onSave with new values when save button is clicked', async () => {
+    const user = userEvent.setup();
     const onSave = vi.fn();
     const onClose = vi.fn();
     renderSettingsDialog(true, defaultSettings, onSave, onClose);
 
-    const waterInput = screen.getByDisplayValue('3.5');
-    fireEvent.change(waterInput, { target: { value: '5.0' } });
+    const [waterInput] = screen.getAllByRole('spinbutton');
+    await user.clear(waterInput);
+    await user.type(waterInput, '5.0');
 
     const saveButton = screen.getByRole('button', { name: /save/i });
     fireEvent.click(saveButton);
@@ -94,13 +97,15 @@ describe('SettingsDialog', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('should update water unit price', () => {
+  it('should update water unit price', async () => {
+    const user = userEvent.setup();
     const onSave = vi.fn();
     const onClose = vi.fn();
     renderSettingsDialog(true, defaultSettings, onSave, onClose);
 
-    const waterInput = screen.getByDisplayValue('3.5');
-    fireEvent.change(waterInput, { target: { value: '4.5' } });
+    const [waterInput] = screen.getAllByRole('spinbutton');
+    await user.clear(waterInput);
+    await user.type(waterInput, '4.5');
 
     const saveButton = screen.getByRole('button', { name: /save/i });
     fireEvent.click(saveButton);
@@ -112,13 +117,15 @@ describe('SettingsDialog', () => {
     );
   });
 
-  it('should update electric unit price', () => {
+  it('should update electric unit price', async () => {
+    const user = userEvent.setup();
     const onSave = vi.fn();
     const onClose = vi.fn();
     renderSettingsDialog(true, defaultSettings, onSave, onClose);
 
-    const electricInput = screen.getByDisplayValue('0.6');
-    fireEvent.change(electricInput, { target: { value: '0.8' } });
+    const [, electricInput] = screen.getAllByRole('spinbutton');
+    await user.clear(electricInput);
+    await user.type(electricInput, '0.8');
 
     const saveButton = screen.getByRole('button', { name: /save/i });
     fireEvent.click(saveButton);
@@ -130,13 +137,15 @@ describe('SettingsDialog', () => {
     );
   });
 
-  it('should update extra fee', () => {
+  it('should update extra fee', async () => {
+    const user = userEvent.setup();
     const onSave = vi.fn();
     const onClose = vi.fn();
     renderSettingsDialog(true, defaultSettings, onSave, onClose);
 
-    const extraFeeInput = screen.getByDisplayValue('10');
-    fireEvent.change(extraFeeInput, { target: { value: '20' } });
+    const [, , extraFeeInput] = screen.getAllByRole('spinbutton');
+    await user.clear(extraFeeInput);
+    await user.type(extraFeeInput, '20');
 
     const saveButton = screen.getByRole('button', { name: /save/i });
     fireEvent.click(saveButton);

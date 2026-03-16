@@ -1,5 +1,6 @@
 import { Box, Text, VStack, HStack, Flex, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { ImageDown } from 'lucide-react';
 import { useMobile } from '../hooks/useMobile';
 import type { Record } from '../types';
 
@@ -39,13 +40,14 @@ export function RecordImage({ record, unitName, onDownload }: RecordImageProps) 
         <Flex pb={8} justify="space-between">
           <Box flex="1" textAlign="left">
             <Text fontSize="2xl" fontWeight="bold" >
-              {t('app.title')}
+              {unitName}
             </Text>
           </Box>
           <Box textAlign="right">
-            <Text fontSize="2xl" fontWeight="bold" >
-              {unitName}
-            </Text>
+            <Button colorPalette="blue" onClick={onDownload}>
+              <ImageDown size={16} />
+              {t('recordRow.downloadImage')}
+            </Button>
           </Box>
         </Flex>
 
@@ -107,12 +109,6 @@ export function RecordImage({ record, unitName, onDownload }: RecordImageProps) 
           <Text fontSize="sm" color="gray.400" style={{ fontSize: '12px', color: '#9ca3af' }}>
             {t('recordImage.generatedOn', { date: formattedDate })}
           </Text>
-        </Box>
-
-        <Box textAlign="center" pt={4}>
-          <Button colorPalette="blue" onClick={onDownload}>
-            {t('recordRow.downloadImage')}
-          </Button>
         </Box>
       </VStack>
     </Box>

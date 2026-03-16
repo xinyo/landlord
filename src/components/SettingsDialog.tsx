@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
   Button,
-  Input,
   VStack,
   Field,
   Dialog,
   NativeSelect,
+  NumberInput,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import type { Settings } from '../types';
@@ -42,30 +42,33 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
             <VStack gap={4} align="stretch">
               <Field.Root>
                 <Field.Label>{t('settings.defaultWaterUnitPrice')}</Field.Label>
-                <Input
-                  type="number"
+                <NumberInput.Root
                   step="0.01"
-                  value={tempSettings.defaultWaterUnitPrice}
-                  onChange={(e) => setTempSettings({ ...tempSettings, defaultWaterUnitPrice: Number(e.target.value) })}
-                />
+                  value={tempSettings.defaultWaterUnitPrice.toString()}
+                  onValueChange={(e) => setTempSettings({ ...tempSettings, defaultWaterUnitPrice: Number(e.value) })}
+                >
+                  <NumberInput.Input />
+                </NumberInput.Root>
               </Field.Root>
               <Field.Root>
                 <Field.Label>{t('settings.defaultElectricUnitPrice')}</Field.Label>
-                <Input
-                  type="number"
+                <NumberInput.Root
                   step="0.01"
-                  value={tempSettings.defaultElectricUnitPrice}
-                  onChange={(e) => setTempSettings({ ...tempSettings, defaultElectricUnitPrice: Number(e.target.value) })}
-                />
+                  value={tempSettings.defaultElectricUnitPrice.toString()}
+                  onValueChange={(e) => setTempSettings({ ...tempSettings, defaultElectricUnitPrice: Number(e.value) })}
+                >
+                  <NumberInput.Input />
+                </NumberInput.Root>
               </Field.Root>
               <Field.Root>
                 <Field.Label>{t('settings.defaultExtraFee')}</Field.Label>
-                <Input
-                  type="number"
+                <NumberInput.Root
                   step="0.01"
-                  value={tempSettings.defaultExtraFee}
-                  onChange={(e) => setTempSettings({ ...tempSettings, defaultExtraFee: Number(e.target.value) })}
-                />
+                  value={tempSettings.defaultExtraFee.toString()}
+                  onValueChange={(e) => setTempSettings({ ...tempSettings, defaultExtraFee: Number(e.value) })}
+                >
+                  <NumberInput.Input />
+                </NumberInput.Root>
               </Field.Root>
               <Field.Root>
                 <Field.Label>{t('settings.defaultDatePeriod')}</Field.Label>
