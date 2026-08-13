@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Landlord",
+    "slug": "landlord",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.xinyo.landlord",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2E7D32"
+      }
+    },
+    "plugins": [
+      "expo-document-picker",
+      "@react-native-community/datetimepicker",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "imageWidth": 240,
+          "resizeMode": "contain",
+          "backgroundColor": "#f4f7f5"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "be08a490-c2bc-49be-a137-b5e780a32e72"
+      }
+    }
+  }
+}

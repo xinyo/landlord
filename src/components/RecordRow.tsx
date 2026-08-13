@@ -16,6 +16,7 @@ import { ImageDown } from 'lucide-react';
 import type { Record, ComputedValues } from '../types';
 import { RecordImage } from './RecordImage';
 import { isWechatRuntime } from '../runtime/wechat';
+import { calculateRecord } from '@landlord/core';
 
 interface RecordRowProps {
   record: Record;
@@ -31,17 +32,7 @@ export function RecordRow({ record, unitName, onChange, onDelete, isMobile }: Re
   const contentRef = useRef<HTMLDivElement>(null);
 
   const computed = useMemo((): ComputedValues => {
-    const waterUsage = Math.max(0, record.waterMeterEnd - record.waterMeterStart);
-    const electricUsage = Math.max(0, record.electricMeterEnd - record.electricMeterStart);
-    const waterFeeTotal = waterUsage * record.waterUnitPrice;
-    const electricFeeTotal = electricUsage * record.electricUnitPrice;
-    const allFeeTotal = waterFeeTotal + electricFeeTotal + record.extraFee;
-
-    return {
-      waterFeeTotal: Math.round(waterFeeTotal * 100) / 100,
-      electricFeeTotal: Math.round(electricFeeTotal * 100) / 100,
-      allFeeTotal: Math.round(allFeeTotal * 100) / 100,
-    };
+    return calculateRecord(record);
   }, [record]);
 
   const handleChange = (field: keyof Record, value: string | number) => {

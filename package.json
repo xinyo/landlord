@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@10.15.1",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -10,12 +18,20 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:wechat": "vite preview --outDir dist-wechat",
-    "test": "vitest run"
+    "android": "corepack pnpm --dir apps/mobile start",
+    "android:setup": "corepack pnpm --dir apps/mobile android:setup",
+    "build:android": "node scripts/build-android.mjs",
+    "build:andriod": "node scripts/build-android.mjs",
+    "assets:android": "node scripts/generate-mobile-assets.mjs",
+    "test:web": "vitest run",
+    "test": "vitest run && corepack pnpm --filter @landlord/core test && corepack pnpm --filter @landlord/mobile test",
+    "typecheck": "tsc -b && corepack pnpm --filter @landlord/core typecheck && corepack pnpm --filter @landlord/mobile typecheck"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.33.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@landlord/core": "workspace:*",
     "framer-motion": "^12.34.0",
     "html2canvas": "^1.4.1",
     "i18next": "^25.8.7",
@@ -41,6 +57,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "jsdom": "^28.0.0",
+    "sharp": "^0.35.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.3.1",

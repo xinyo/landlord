@@ -5,19 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Settings2, Languages } from 'lucide-react';
 import { UnitList, Toolbar, SettingsDialog, Footer } from './components';
 import type { AppData, Unit, Settings } from './types';
+import { initialData, parseAppData } from '@landlord/core';
 import './i18n';
-
-const defaultSettings: Settings = {
-  defaultWaterUnitPrice: 3.5,
-  defaultElectricUnitPrice: 0.6,
-  defaultExtraFee: 10,
-  defaultDatePeriod: 'monthly',
-};
-
-const initialData: AppData = {
-  units: [],
-  settings: defaultSettings,
-};
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -43,13 +32,7 @@ function App() {
   }, [i18n]);
 
   const handleDataLoad = (loadedData: AppData) => {
-    // Ensure loaded data has settings, otherwise use defaults
-    const mergedData = {
-      ...initialData,
-      ...loadedData,
-      settings: loadedData.settings ? { ...defaultSettings, ...loadedData.settings } : defaultSettings,
-    };
-    setData(mergedData);
+    setData(parseAppData(loadedData));
   };
 
   const openSettings = () => {

@@ -1,0 +1,45 @@
+{
+  "name": "@landlord/mobile",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "android:setup": "pnpm dlx eas-cli login && pnpm dlx eas-cli init --id be08a490-c2bc-49be-a137-b5e780a32e && pnpm dlx eas-cli credentials -p android",
+    "export:android": "expo export --platform android",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@landlord/core": "workspace:*",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-community/datetimepicker": "^9.1.0",
+    "expo": "~57.0.0",
+    "expo-crypto": "~57.0.1",
+    "expo-document-picker": "~57.0.1",
+    "expo-file-system": "~57.0.1",
+    "expo-sharing": "~57.0.1",
+    "expo-splash-screen": "~57.0.1",
+    "expo-status-bar": "~57.0.1",
+    "i18next": "^25.8.7",
+    "react": "19.2.3",
+    "react-i18next": "^16.5.4",
+    "react-native": "0.86.2",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-view-shot": "5.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "~19.2.2",
+    "@vitejs/plugin-react": "^5.1.1",
+    "jsdom": "^28.0.0",
+    "react-dom": "19.2.3",
+    "react-native-web": "^0.21.0",
+    "typescript": "~6.0.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}
