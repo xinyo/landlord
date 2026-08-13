@@ -22,6 +22,8 @@ export function SettingsDialog({ isOpen, onClose, settings, onSave }: SettingsDi
   const [tempSettings, setTempSettings] = useState<Settings>(settings);
 
   useEffect(() => {
+    // Keep the editable copy aligned whenever the dialog is reopened.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTempSettings(settings);
   }, [settings, isOpen]);
 

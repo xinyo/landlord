@@ -1,0 +1,14 @@
+{
+  "app": { "title": "房屋水电计算器", "shortTitle": "房屋水电" },
+  "toolbar": { "save": "保存", "load": "加载", "backup": "备份", "restore": "恢复", "loadError": "加载文件失败，请确保是有效的JSON文件。", "saveError": "无法分享备份文件。", "wechatSaveHint": "微信内可能限制直接下载，请在系统浏览器中打开后保存 JSON 文件。" },
+  "unitList": { "placeholder": "输入单元名称...", "addUnit": "添加单元", "noUnits": "暂无单元", "noUnitsHint": "在上方输入单元名称开始使用", "selectUnit": "选择单元", "renameUnit": "重命名单元" },
+  "unitCard": { "deleteUnit": "删除单元", "deleteConfirm": "删除此单元及其所有记录？" },
+  "recordTable": { "startDate": "开始日期", "endDate": "结束日期", "waterMeter": "水表", "waterPrice": "水费单价", "waterFee": "水费", "electricMeter": "电表", "electricPrice": "电费单价", "electricFee": "电费", "extraFee": "垃圾管理费", "total": "合计", "addRecord": "添加记录", "noRecords": "暂无记录，点击添加记录新增。", "selectRecord": "选择账单记录" },
+  "recordRow": { "deleteRecord": "删除记录", "deleteConfirm": "删除此账单记录？", "downloadImage": "下载图片", "shareImage": "分享图片", "previewImage": "预览图片", "meterUsage": "用量", "meterStart": "起始读数", "meterEnd": "结束读数", "shareError": "无法创建或分享图片。", "wechatSaveHint": "在微信里请长按打开的图片进行保存。" },
+  "recordImage": { "generatedOn": "生成于 {{date}}" },
+  "settings": { "title": "设置", "defaultWaterUnitPrice": "默认水费单价", "defaultElectricUnitPrice": "默认电费单价", "defaultExtraFee": "默认垃圾管理费", "defaultDatePeriod": "默认日期周期", "datePeriod": { "monthly": "每月", "fortnightly": "每两周", "weekly": "每周" } },
+  "common": { "arrow": "→", "save": "保存", "cancel": "取消", "delete": "删除", "confirm": "确认", "error": "错误", "loading": "加载中…", "close": "关闭" },
+  "language": { "en": "EN", "zh": "中文" },
+  "storage": { "loadError": "无法读取已保存的数据，应用已使用空数据启动。", "saveError": "无法在此设备上保存更改。", "replaceTitle": "替换当前数据？", "replaceMessage": "恢复此备份将替换应用中的所有当前数据。" },
+  "footer": { "credit": "© {{year}} 房屋水电 — 由 MiniMax，Codex，Claude Code 和 ClawdBot 用❤️制作", "github": "GitHub" }
+}

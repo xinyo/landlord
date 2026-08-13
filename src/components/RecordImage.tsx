@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ImageDown } from 'lucide-react';
 import { useMobile } from '../hooks/useMobile';
 import type { Record } from '../types';
+import { calculateRecord } from '@landlord/core';
 
 interface RecordImageProps {
   record: Record;
@@ -16,13 +17,7 @@ export function RecordImage({ record, unitName, onDownload }: RecordImageProps) 
 
   const formattedDate = new Date().toLocaleDateString(i18n.language === 'zh' ? 'zh-CN' : 'en-US');
 
-  const computed = {
-    waterUsage: Math.max(0, record.waterMeterEnd - record.waterMeterStart),
-    electricUsage: Math.max(0, record.electricMeterEnd - record.electricMeterStart),
-    waterFeeTotal: Math.round(record.waterUnitPrice * Math.max(0, record.waterMeterEnd - record.waterMeterStart) * 100) / 100,
-    electricFeeTotal: Math.round(record.electricUnitPrice * Math.max(0, record.electricMeterEnd - record.electricMeterStart) * 100) / 100,
-    allFeeTotal: Math.round((record.waterUnitPrice * Math.max(0, record.waterMeterEnd - record.waterMeterStart) + record.electricUnitPrice * Math.max(0, record.electricMeterEnd - record.electricMeterStart) + record.extraFee) * 100) / 100,
-  };
+  const computed = calculateRecord(record);
 
   return (
     <Box

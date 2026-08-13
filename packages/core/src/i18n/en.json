@@ -1,0 +1,14 @@
+{
+  "app": { "title": "Water & Electric Fee Calculator", "shortTitle": "Landlord" },
+  "toolbar": { "save": "Save", "load": "Load", "backup": "Backup", "restore": "Restore", "loadError": "Failed to load file. Please make sure it is a valid JSON file.", "saveError": "Unable to share the backup file.", "wechatSaveHint": "WeChat may block direct file download. Open in your system browser to save this JSON file." },
+  "unitList": { "placeholder": "Enter unit name...", "addUnit": "Add Unit", "noUnits": "No units yet", "noUnitsHint": "Enter a unit name above to get started", "selectUnit": "Select unit", "renameUnit": "Rename unit" },
+  "unitCard": { "deleteUnit": "Delete unit", "deleteConfirm": "Delete this unit and all of its records?" },
+  "recordTable": { "startDate": "Start Date", "endDate": "End Date", "waterMeter": "Water Meter", "waterPrice": "Water Price", "waterFee": "Water Fee", "electricMeter": "Electric Meter", "electricPrice": "Electric Price", "electricFee": "Electric Fee", "extraFee": "Extra Fee", "total": "Total", "addRecord": "Add Record", "noRecords": "No records yet. Tap Add Record to add one.", "selectRecord": "Select billing record" },
+  "recordRow": { "deleteRecord": "Delete record", "deleteConfirm": "Delete this billing record?", "downloadImage": "Download as Image", "shareImage": "Share Image", "previewImage": "Preview Image", "meterUsage": "Usage", "meterStart": "Start reading", "meterEnd": "End reading", "shareError": "Unable to create or share the image.", "wechatSaveHint": "Long-press the opened image to save it in WeChat." },
+  "recordImage": { "generatedOn": "Generated on {{date}}" },
+  "settings": { "title": "Settings", "defaultWaterUnitPrice": "Default Water Unit Price", "defaultElectricUnitPrice": "Default Electric Unit Price", "defaultExtraFee": "Default Extra Fee", "defaultDatePeriod": "Default Date Period", "datePeriod": { "monthly": "Monthly", "fortnightly": "Fortnightly", "weekly": "Weekly" } },
+  "common": { "arrow": "→", "save": "Save", "cancel": "Cancel", "delete": "Delete", "confirm": "Confirm", "error": "Error", "loading": "Loading…", "close": "Close" },
+  "language": { "en": "EN", "zh": "中文" },
+  "storage": { "loadError": "Saved data could not be read. The app started with empty data.", "saveError": "Changes could not be saved on this device.", "replaceTitle": "Replace current data?", "replaceMessage": "Restoring this backup will replace all data currently in the app." },
+  "footer": { "credit": "© {{year}} Rental Utilities — made with ❤️ by MiniMax, Codex, Claude Code and ClawdBot", "github": "GitHub" }
+}

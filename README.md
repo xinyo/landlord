@@ -57,9 +57,17 @@ When creating a new record, the app helps reduce repetitive manual entry by:
 - **html2canvas**
 - **lucide-react**
 
+The Android app additionally uses **Expo / React Native**, native AsyncStorage,
+Android document sharing, and native view capture. Shared billing logic and JSON
+validation live in `packages/core` and are used by both apps.
+
 ## Project structure
 
 ```text
+apps/
+  mobile/               # Expo React Native Android app
+packages/
+  core/                 # Shared types, calculations, dates, JSON and translations
 src/
   components/
     Footer.tsx
@@ -81,6 +89,54 @@ src/
   App.tsx
   types.ts
 ```
+
+## Android app
+
+Use Node 24 LTS and pnpm 10 (the pinned versions are recorded in `.nvmrc` and
+`package.json`). The Android application ID is `com.xinyo.landlord`.
+
+Install all workspace dependencies from the repository root:
+
+```bash
+corepack enable
+pnpm install
+```
+
+For local development, install Expo Go on an Android device and run:
+
+```bash
+pnpm android
+```
+
+Scan the QR code with Expo Go. The application automatically saves its data on
+the device and can restore backups exported by the web app.
+
+### One-time cloud build setup
+
+An Expo account is required for cloud APK builds. Complete login and Android
+signing setup once:
+
+```bash
+pnpm android:setup
+```
+
+Accept EAS-managed Android signing credentials when prompted.
+
+### Build an installable APK
+
+Either spelling works; `build:android` is canonical and `build:andriod` is kept
+as the requested compatibility alias:
+
+```bash
+pnpm build:andriod
+```
+
+The command type-checks the mobile app, waits for EAS to create a signed APK,
+and atomically downloads it to `dist-android/landlord.apk`. It does not require
+Android Studio or a local Android SDK.
+
+The cloud build uploads the project to Expo. JSON backups and billing data stay
+on the device unless the user explicitly shares them.
 
 ## Data model
 

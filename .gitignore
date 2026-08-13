@@ -10,8 +10,15 @@ lerna-debug.log*
 node_modules
 dist
 dist-wechat
+dist-android
+dist-mobile-bundle
 dist-ssr
 *.local
+
+# Expo generated native projects and local state
+apps/mobile/android
+apps/mobile/ios
+apps/mobile/.expo
 
 # Editor directories and files
 .vscode/*
