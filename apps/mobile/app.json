@@ -10,7 +10,7 @@
       "package": "com.xinyo.landlord",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#2E7D32"
       }
     },
