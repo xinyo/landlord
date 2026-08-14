@@ -1,10 +1,18 @@
-import { useState } from 'react';
-import { Box, Button, Input, HStack, VStack, Text, NativeSelect } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
-import { UnitCard } from './UnitCard';
-import { useMobile } from '../hooks/useMobile';
-import type { Unit, Settings } from '../types';
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  NativeSelect,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
+import { useMobile } from "../hooks/useMobile";
+import type { Settings, Unit } from "../types";
+import { UnitCard } from "./UnitCard";
 
 interface UnitListProps {
   units: Unit[];
@@ -14,23 +22,24 @@ interface UnitListProps {
 
 export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
   const { t } = useTranslation();
-  const [newUnitName, setNewUnitName] = useState('');
+  const [newUnitName, setNewUnitName] = useState("");
   const isMobile = useMobile();
-  const [selectedUnitId, setSelectedUnitId] = useState<string>('');
+  const [selectedUnitId, setSelectedUnitId] = useState<string>("");
   // Track the last selected record ID for each unit
-  const [unitRecordSelections, setUnitRecordSelections] = useState<Record<string, string>>({});
+  const [unitRecordSelections, setUnitRecordSelections] = useState<
+    Record<string, string>
+  >({});
 
   // Derive effective selected unit - always use a valid unit id
-  const effectiveSelectedUnitId = units.length > 0
-    ? (selectedUnitId || units[0].id)
-    : '';
+  const effectiveSelectedUnitId =
+    units.length > 0 ? selectedUnitId || units[0].id : "";
 
   // Get the selected record ID for the current unit
   const effectiveSelectedRecordId = (() => {
-    const unit = units.find(u => u.id === effectiveSelectedUnitId);
-    if (!unit || unit.records.length === 0) return '';
+    const unit = units.find((u) => u.id === effectiveSelectedUnitId);
+    if (!unit || unit.records.length === 0) return "";
     const savedRecordId = unitRecordSelections[effectiveSelectedUnitId];
-    if (savedRecordId && unit.records.some(r => r.id === savedRecordId)) {
+    if (savedRecordId && unit.records.some((r) => r.id === savedRecordId)) {
       return savedRecordId;
     }
     // Default to last record
@@ -41,7 +50,7 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
   const handleUnitChange = (newUnitId: string) => {
     setSelectedUnitId(newUnitId);
 
-    setUnitRecordSelections(prev => {
+    setUnitRecordSelections((prev) => {
       const newSelections = { ...prev };
       delete newSelections[newUnitId];
       return newSelections;
@@ -58,13 +67,13 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
     };
 
     onUnitsChange([...units, newUnit]);
-    setNewUnitName('');
+    setNewUnitName("");
     setSelectedUnitId(newUnit.id);
   };
 
   const handleUpdateUnit = (updatedUnit: Unit) => {
     onUnitsChange(
-      units.map((u) => (u.id === updatedUnit.id ? updatedUnit : u))
+      units.map((u) => (u.id === updatedUnit.id ? updatedUnit : u)),
     );
   };
 
@@ -77,21 +86,28 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
       <VStack gap={4} mb={6}>
         <HStack w="full" maxW="400px">
           <Input
-            placeholder={t('unitList.placeholder')}
+            placeholder={t("unitList.placeholder")}
             value={newUnitName}
             onChange={(e) => setNewUnitName(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleAddUnit()}
+            onKeyDown={(e) => e.key === "Enter" && handleAddUnit()}
           />
           <Button onClick={handleAddUnit} colorPalette="blue">
-            {t('unitList.addUnit')}
+            {t("unitList.addUnit")}
           </Button>
         </HStack>
       </VStack>
 
       {units.length === 0 ? (
         <Box textAlign="center" py={12} color="gray.500">
-          <Text fontSize="lg">{t('unitList.noUnits')}</Text>
-          <Text>{t('unitList.noUnitsHint')}</Text>
+          <img
+            src="/landlord.png"
+            alt="Landlord Logo"
+            width={100}
+            height={100}
+            style={{ margin: "0 auto", opacity: 0.5, marginBottom: "1rem" }}
+          />
+          <Text fontSize="lg">{t("unitList.noUnits")}</Text>
+          <Text>{t("unitList.noUnitsHint")}</Text>
         </Box>
       ) : isMobile && units.length > 1 ? (
         <Box mb={4}>
@@ -111,11 +127,13 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
         </Box>
       ) : null}
 
-      {units.length > 0 && (
-        isMobile && units.length > 1 ? (
+      {units.length > 0 &&
+        (isMobile && units.length > 1 ? (
           <UnitCard
             key={effectiveSelectedUnitId}
-            unit={units.find(u => u.id === effectiveSelectedUnitId) || units[0]}
+            unit={
+              units.find((u) => u.id === effectiveSelectedUnitId) || units[0]
+            }
             settings={settings}
             onUnitChange={handleUpdateUnit}
             onDelete={() => handleDeleteUnit(effectiveSelectedUnitId)}
@@ -131,8 +149,7 @@ export function UnitList({ units, settings, onUnitsChange }: UnitListProps) {
               onDelete={() => handleDeleteUnit(unit.id)}
             />
           ))
-        )
-      )}
+        ))}
     </Box>
   );
 }
